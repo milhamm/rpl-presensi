@@ -1,7 +1,8 @@
-import '../styles/globals.css'
+require('antd/dist/antd.less');
+require('../styles/globals.less');
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+  return <Component {...pageProps} />;
 }
 
-export default MyApp
+export default MyApp;
