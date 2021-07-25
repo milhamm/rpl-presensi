@@ -15,7 +15,7 @@ module.exports = withAntdLess({
 
   // Other Config Here...
 
-  webpack(config) {
+  webpack(config, { buildId, dev, isServer, defaultLoaders, webpack }) {
     return config;
   },
 });

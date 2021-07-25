@@ -1,0 +1,64 @@
+@import url('/styles/variables.less');
+
+.hero {
+  display: flex;
+  height: calc(100vh - 8rem);
+  justify-content: center;
+  align-items: center;
+  @media @mobile {
+    height: unset;
+    margin-bottom: 2rem;
+    flex-direction: column;
+  }
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  font-size: 3rem;
+  margin-right: 8rem;
+  h1 {
+    color: white;
+    span {
+      font-weight: bold;
+    }
+  }
+  @media @mobile {
+    width: 100%;
+    align-items: unset;
+    margin-right: unset;
+    font-size: 1.4rem;
+  }
+}
+
+.overview {
+  width: 500px;
+  &-lists {
+    max-height: 300px;
+    border-radius: 0 0 1rem 1rem;
+    height: 100%;
+    background: white;
+    margin: 0 1.2rem;
+    padding: 1rem 1.2rem;
+    overflow-y: scroll;
+    box-shadow: inset 0px 0px 20px rgba(0, 0, 0, 0.25);
+    @media @mobile {
+      padding: 1rem 0.6rem;
+    }
+  }
+  @media @mobile {
+    width: 100%;
+  }
+}
+
+.home {
+  &-lists {
+    background: white;
+    border-radius: 2rem;
+    padding: 3rem 3rem;
+    @media @mobile {
+      border-radius: 1rem;
+      padding: 1rem 1rem;
+    }
+  }
+}

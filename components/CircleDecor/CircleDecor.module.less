@@ -1,0 +1,33 @@
+@import url('/styles/variables.less');
+
+@background-1: linear-gradient(149.09deg, #f37335 -41.34%, #fdc830 70.26%);
+
+.circle {
+  transform: rotate(40deg);
+  margin: 0;
+  border-radius: 50%;
+  position: absolute;
+  z-index: 0;
+}
+
+.base-circle(@size, @position-y, @bg) {
+  background: @bg;
+  width: @size;
+  height: @size;
+  top: @position-y;
+}
+
+.circle-1 {
+  .base-circle(600px, -100px, @background-1);
+  right: -100px;
+}
+
+.circle-2 {
+  .base-circle(600px, 200px, @background-1);
+  left: -300px;
+}
+
+.circle-3 {
+  .base-circle(300px, 700px, @background-1);
+  left: 600px;
+}

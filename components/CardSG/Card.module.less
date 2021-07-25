@@ -1,0 +1,94 @@
+.card {
+  border-radius: 1.6rem;
+
+  @media @mobile {
+    border-radius: 1.2rem;
+  }
+
+  &-body {
+    display: grid;
+    grid-template-columns: 30% 70%;
+    p {
+      &:nth-child(even) {
+        font-weight: bold;
+      }
+    }
+  }
+  &-footer {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &-default {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+    border: 0.5px solid rgba(0, 0, 0, 0.5);
+  }
+
+  &-hero {
+    box-shadow: 0px 4px 10px rgba(95, 76, 53, 0.25),
+      inset 0px -8px 10px rgba(70, 70, 70, 0.1);
+  }
+
+  &-secondary {
+    background: linear-gradient(
+      101.21deg,
+      rgba(253, 200, 48, 0.2) -18.84%,
+      rgba(243, 115, 53, 0.2) 103.79%
+    ) !important;
+    box-shadow: unset;
+    &:not(:last-child) {
+      margin-bottom: 1rem;
+    }
+  }
+
+  &-secondary .ant-card-body {
+    padding: 0 24px !important;
+  }
+
+  @media @mobile {
+    &-secondary .title {
+      p {
+        font-size: 0.8rem;
+      }
+      h4 {
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+.title {
+  p {
+    font-weight: bold;
+    color: @secondary-color;
+    @media @mobile {
+      font-size: 1rem;
+    }
+  }
+  h4 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    @media @mobile {
+      font-size: 1.4rem;
+    }
+  }
+}
+
+.delete {
+  margin-right: 1rem;
+  color: #d20000;
+  outline: none;
+  border: none;
+}
+
+.confirm {
+  p {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 3rem;
+  }
+}

@@ -1,0 +1,11 @@
+@import url('/styles/variables.less');
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: 4rem;
+  @media @mobile {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}

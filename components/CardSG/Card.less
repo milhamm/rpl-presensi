@@ -1,0 +1,46 @@
+@import url('/styles/variables.less');
+
+@media @mobile {
+  .ant-card-head {
+    padding: 0 1rem;
+  }
+  .ant-card-head-title {
+    padding: 1rem 0 0.5rem 0;
+  }
+  .ant-card-body {
+    padding: 0.5rem 1rem 1rem !important;
+  }
+}
+
+.ant-modal-confirm .ant-modal-confirm-btns {
+  width: 100%;
+  display: flex;
+  float: unset;
+  justify-content: stretch;
+  align-items: center;
+  flex-direction: row-reverse;
+  button {
+    border-radius: 0.7rem;
+    width: 100%;
+    &:first-child {
+      margin-left: 1rem;
+    }
+  }
+}
+
+.ant-btn-dangerous.ant-btn-primary {
+  color: #fff;
+  background: #ba0000;
+  border-color: #ba0000;
+  text-shadow: 0 -1px 0 rgb(0 0 0 / 12%);
+  -webkit-box-shadow: 0 2px 0 rgb(0 0 0 / 5%);
+  box-shadow: 0 2px 0 rgb(0 0 0 / 5%);
+}
+
+.ant-modal-content {
+  border-radius: 1.6rem;
+}
+
+.ant-modal-confirm .ant-modal-body {
+  padding: 3rem 2rem 2rem;
+}

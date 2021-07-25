@@ -4,7 +4,12 @@ html,
 body {
   padding: 0;
   margin: 0;
+  overflow: overlay;
   font-family: 'Poppins', sans-serif !important;
+  overflow-x: hidden;
+  @media (max-width: 480px) {
+    overflow-x: hidden;
+  }
 }
 
 a {
@@ -14,4 +19,47 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+.input-base {
+  border: 2px solid #000000;
+  border-radius: 12px;
+  padding: 8px 16px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  z-index: 999;
+  @media @mobile {
+    width: 5px;
+  }
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(87, 60, 11, 0.411);
+  backdrop-filter: blur(2px);
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.btn-primary {
+  background: @primary-gradient !important;
+  border-radius: 8px !important;
+  border: none !important;
+  transition: all 0.1s !important;
+  span {
+    font-weight: bold !important;
+    color: white !important;
+  }
+  &:hover {
+    background: @primary-gradient-hover !important;
+    transition: all 0.1s !important;
+  }
 }
