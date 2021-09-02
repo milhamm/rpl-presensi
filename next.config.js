@@ -14,8 +14,9 @@ module.exports = withAntdLess({
   // cssLoaderOptions: {},
 
   // Other Config Here...
-
   webpack(config, { buildId, dev, isServer, defaultLoaders, webpack }) {
     return config;
   },
+
+  basePath: '/presensi',
 });
