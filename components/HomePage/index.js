@@ -1,5 +1,8 @@
 import CardSG from '@components/CardSG';
-import React from 'react';
+import api from '@lib/api';
+import fetcher from '@lib/fetcher';
+import React, { useEffect } from 'react';
+import useSWR from 'swr';
 import CardLists from './CardLists';
 import FilterList from './FilterList';
 import styles from './HomePage.module.less';
@@ -11,7 +14,7 @@ const dummyData = {
   time: '19.00',
 };
 
-const data = [
+const datass = [
   {
     date: 'Kamis, 17 April 2021',
     title: 'Study Group UI/UX',
@@ -51,6 +54,12 @@ const data = [
 ];
 
 const HomePage = () => {
+  const { data, error } = useSWR('/studygroup', fetcher);
+
+  if (!data) {
+    return 'Loading . . .';
+  }
+
   return (
     <>
       <div className={styles.hero}>
@@ -85,7 +94,7 @@ const HomePage = () => {
       </div>
       <div className={styles['home-lists']}>
         <FilterList />
-        <CardLists data={data} />
+        {data && <CardLists data={data.data} />}
       </div>
     </>
   );

@@ -1,0 +1,25 @@
+.container {
+  height: 300px;
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.button {
+  height: 70px;
+  width: 70px;
+  background-color: black;
+  position: relative;
+
+  @media screen and (max-width: 380px) {
+    position: absolute;
+    right: 0;
+  }
+}
+
+.ratio {
+  width: 100%;
+  background-color: red;
+  padding-top: 100%;
+}

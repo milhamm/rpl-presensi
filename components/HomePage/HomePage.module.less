@@ -5,7 +5,9 @@
   height: calc(100vh - 8rem);
   justify-content: center;
   align-items: center;
-  @media @mobile {
+
+  @media @laptop-md {
+    padding-top: 7rem;
     height: unset;
     margin-bottom: 2rem;
     flex-direction: column;
@@ -22,6 +24,9 @@
     span {
       font-weight: bold;
     }
+  }
+  @media @laptop-md {
+    font-size: 2rem;
   }
   @media @mobile {
     width: 100%;

@@ -3,7 +3,10 @@ import { Button, Card, Skeleton, Modal } from 'antd';
 import { DeleteOutlined, CloseOutlined } from '@ant-design/icons';
 import cn from 'classnames';
 import styles from './Card.module.less';
-// Importing less files need to use require
+import CardTitle from './CardTitle';
+import { formatLongDate, formatTime } from '@lib/formatDate';
+import Link from 'next/link';
+// Using require to import non-module .less files
 require('./Card.less');
 
 const { confirm } = Modal;
@@ -18,19 +21,8 @@ const buttonCancelProps = {
   icon: <CloseOutlined />,
 };
 
-const Title = ({ title, date, loading }) => {
-  return (
-    <div className={styles.title}>
-      <Skeleton paragraph={{ rows: 1 }} loading={loading}>
-        <p>{date}</p>
-        <h4>{title}</h4>
-      </Skeleton>
-    </div>
-  );
-};
-
 const CardSG = ({
-  data: { title, date, tutor, time },
+  data: { judul, tanggal, penutor, id },
   loading,
   showButton = true,
   allowDelete = false,
@@ -66,16 +58,26 @@ const CardSG = ({
         },
         'card'
       )}
-      title={<Title title={title} date={date} loading={loading} />}
+      title={
+        <Link href={`/sg/${id}`}>
+          <a>
+            <CardTitle
+              title={judul}
+              date={formatLongDate(tanggal)}
+              loading={loading}
+            />
+          </a>
+        </Link>
+      }
     >
       <div className={styles['card-body']}>
         <p>Penutor </p>
         <Skeleton paragraph={{ rows: 1 }} title={false} loading={loading}>
-          <p>: {tutor}</p>
+          <p>: {penutor}</p>
         </Skeleton>
         <p>Waktu</p>
         <Skeleton paragraph={{ rows: 1 }} title={false} loading={loading}>
-          <p>: {time}</p>
+          <p>: {formatTime(tanggal)}</p>
         </Skeleton>
       </div>
       <div className={styles['card-footer']}>
@@ -89,7 +91,11 @@ const CardSG = ({
         )}
 
         {showButton && !loading && (
-          <Button className='btn-primary'>Lihat Selengkapnya</Button>
+          <Link href={`/sg/${id}`}>
+            <a>
+              <Button className='btn-primary'>Lihat Selengkapnya</Button>
+            </a>
+          </Link>
         )}
       </div>
     </Card>
