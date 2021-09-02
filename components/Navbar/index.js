@@ -19,7 +19,7 @@ const Navbar = () => {
     <nav className={cx(styles.navbar, { [styles.solid]: active })}>
       <div className={styles.container}>
         <div className={styles.brand}>
-          <Image src='/presensi-logo.png' layout='fill' />
+          <Image src='/presensi-logo.png' layout='fill' alt='Presensi Logo' />
         </div>
         <span className={styles.name}>Presensi by RPL-GDC</span>
       </div>
