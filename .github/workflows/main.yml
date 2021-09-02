@@ -17,8 +17,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install -g yarn
-      - run: yarn install --frozen-lockfile
+      - run: yarn install
       - run: yarn build
-      - run: pm2 reload next-js
+      - run: pm2 reload frontend-presensi
         env:
-          CI: true
+          CI: false

@@ -17,7 +17,7 @@ const LoginPage = () => {
     }
   }, [isLoggedIn]);
 
-  if (!isLoggedIn) {
+  if (!isLoggedIn && isLoading) {
     return 'Loading . . .';
   }
 
