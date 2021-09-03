@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: ubuntu-20.04
 
     strategy:
       matrix:
@@ -20,6 +20,7 @@ jobs:
       - run: yarn install
       - run: yarn build
       - run: which pm2
+      - run: pm2 ps
       - run: pm2 restart frontend-presensi
         env:
           CI: false
