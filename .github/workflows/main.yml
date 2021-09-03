@@ -17,6 +17,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install -g yarn
+      - run: npm install -g pm2
       - run: yarn install
       - run: yarn build
       - run: which pm2
