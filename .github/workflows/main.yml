@@ -19,6 +19,7 @@ jobs:
       - run: npm install -g yarn
       - run: yarn install
       - run: yarn build
+      - run: which pm2
       - run: pm2 restart frontend-presensi
         env:
           CI: false
