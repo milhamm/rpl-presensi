@@ -14,7 +14,6 @@ function MyApp({ Component, pageProps }) {
       window.scrollTo({
         top: 0,
       });
-      console.log('Masuk');
     });
   }, [router]);
 

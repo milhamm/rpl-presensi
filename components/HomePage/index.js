@@ -3,6 +3,7 @@ import { useAuth } from '@context/auth';
 import api from '@lib/api';
 import fetcher from '@lib/fetcher';
 import { Button } from 'antd';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import useSWR from 'swr';
@@ -71,14 +72,19 @@ const HomePage = () => {
               <br />
               Study Group
             </span>
-            <Button className={styles.cta} size='large'>
-              Buat Study Group
-            </Button>
+            <Link href='/sg/new'>
+              <a>
+                <Button className={styles.cta} size='large'>
+                  Buat Study Group
+                </Button>
+              </a>
+            </Link>
           </h1>
         </div>
         <div className={styles.overview}>
-          {!!data && (
+          {data?.data.length > 0 && (
             <>
+              {console.log('Masul')}
               <div className={styles['overview-cards']}>
                 <CardSG
                   data={data.data[0]}
@@ -86,7 +92,7 @@ const HomePage = () => {
                   type='hero'
                 />
               </div>
-              {data?.data.length >= 1 && (
+              {data?.data.length > 1 && (
                 <div className={styles['overview-lists']}>
                   {data?.data.slice(1, 2).map((val, idx) => (
                     <CardSG
@@ -106,7 +112,7 @@ const HomePage = () => {
 
       <div className={styles['home-lists']}>
         <FilterList />
-        <CardLists data={data?.data} />
+        {data && <CardLists data={data?.data} />}
       </div>
     </>
   );

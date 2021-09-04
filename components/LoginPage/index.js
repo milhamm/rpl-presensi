@@ -11,7 +11,6 @@ const LoginPage = () => {
   const onFinish = async (values) => {
     setLoading(true);
     await login(values);
-    setLoading(false);
   };
 
   return (

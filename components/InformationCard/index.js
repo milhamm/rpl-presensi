@@ -1,25 +1,34 @@
-import { Divider, Input, DatePicker, PageHeader } from 'antd';
-import React, { useState } from 'react';
+import { Divider, Input, DatePicker, PageHeader, Form, Button } from 'antd';
+import React, { useImperativeHandle, useRef, useState } from 'react';
 import Information from './Information';
 import styles from './InformationCard.module.less';
 import { formatLongDate } from '@lib/formatDate';
+import dayjs from 'dayjs';
 
 const InformationCard = ({
   title = 'Laporan Study Group',
   isInput = false,
   data,
   children,
+  onSubmit,
+  submitText = 'Buat Study Group',
 }) => {
-  const [formData, setFormData] = useState({});
+  const [form] = Form.useForm();
+  const [isSubmitting, setSubmitting] = useState(false);
 
-  const handleSubmit = () => {};
+  const handleFinishForm = async (data) => {
+    const newFormat = { ...data, tanggal: dayjs(data.tanggal).toISOString() };
+    setSubmitting(true);
+    try {
+      await onSubmit(newFormat);
+    } catch (error) {
+      console.log(error);
+    }
+    setSubmitting(false);
+  };
 
-  const handleFormChange = (val) => {
-    const name = val.target.name;
-    const value = val.target.value;
-    setFormData({
-      [name]: value,
-    });
+  const handleResetForm = () => {
+    form.resetFields();
   };
 
   return (
@@ -27,83 +36,159 @@ const InformationCard = ({
       <div className={styles.header}>
         <PageHeader className={styles['page-header']} title={title} />
       </div>
-      <Divider />
-      <div className={styles.info}>
-        <Information
-          title='Divisi'
-          content={data?.divisi}
-          isInput={isInput}
-          inputContent={
-            <Input
-              name='divisi'
-              value={formData?.divisi}
-              onChange={handleFormChange}
-              className={styles.input}
-              placeholder='Pilih Divisi Study Group'
-            />
-          }
-        />
-        <Information
-          title='Penutor'
-          content={data?.penutor}
-          isInput={isInput}
-          inputContent={
-            <Input
-              name='penutor'
-              value={formData?.penutor}
-              onChange={handleFormChange}
-              className={styles.input}
-              placeholder='Tulis nama penutor disini'
-            />
-          }
-        />
-        <Information
-          title='Materi'
-          content={data?.judul}
-          isInput={isInput}
-          inputContent={
-            <Input
-              name='judul'
-              value={formData?.judul}
-              onChange={handleFormChange}
-              className={styles.input}
-              placeholder='Tulis judul Materi Study Group disini'
-            />
-          }
-        />
-        <Information
-          title='Tanggal'
-          isInput={isInput}
-          content={data ? formatLongDate(data?.tanggal) : ''}
-          inputContent={
-            <DatePicker
-              name='tanggal'
-              value={formData?.tanggal}
-              onChange={handleFormChange}
-              showTime
-              className={styles.input}
-              placeholder='Pilih tanggal Study Group disini'
-            />
-          }
-        />
-        <Information
-          title='Tempat'
-          isInput={isInput}
-          content={data?.tempat}
-          inputContent={
-            <Input
-              name='tempat'
-              value={formData?.tempat}
-              onChange={handleFormChange}
-              className={styles.input}
-              placeholder='Tulis tempat Study Group disini'
-            />
-          }
-        />
-      </div>
-      <Divider />
+
+      <Form form={form} onFinish={handleFinishForm}>
+        <div className={styles.info}>
+          <Information
+            title='Divisi'
+            content={data?.divisi}
+            isInput={isInput}
+            inputContent={
+              <Form.Item
+                name='divisi'
+                noStyle={!isInput}
+                rules={[
+                  { required: true, message: 'Field Divisi is required' },
+                ]}
+              >
+                <Input
+                  disabled={isSubmitting}
+                  className={styles.input}
+                  placeholder='Pilih Divisi Study Group'
+                />
+              </Form.Item>
+            }
+          />
+          <Information
+            title='Penutor'
+            content={data?.penutor}
+            isInput={isInput}
+            inputContent={
+              <Form.Item
+                name='penutor'
+                noStyle={!isInput}
+                rules={[
+                  { required: true, message: 'Field Penutor is required' },
+                ]}
+              >
+                <Input
+                  disabled={isSubmitting}
+                  autoComplete='off'
+                  className={styles.input}
+                  placeholder='Tulis nama penutor disini'
+                />
+              </Form.Item>
+            }
+          />
+          <Information
+            title='Materi'
+            content={data?.judul}
+            isInput={isInput}
+            inputContent={
+              <Form.Item
+                name='judul'
+                noStyle={!isInput}
+                rules={[{ required: true, message: 'Field Judul is required' }]}
+              >
+                <Input
+                  disabled={isSubmitting}
+                  autoComplete='off'
+                  className={styles.input}
+                  placeholder='Tulis judul Materi Study Group disini'
+                />
+              </Form.Item>
+            }
+          />
+          <Information
+            title='Tanggal'
+            isInput={isInput}
+            content={data ? formatLongDate(data?.tanggal) : ''}
+            inputContent={
+              <Form.Item
+                name='tanggal'
+                noStyle={!isInput}
+                rules={[
+                  { required: true, message: 'Field Tanggal is required' },
+                ]}
+              >
+                <DatePicker
+                  disabled={isSubmitting}
+                  showTime
+                  className={styles.input}
+                  placeholder='Pilih tanggal Study Group disini'
+                />
+              </Form.Item>
+            }
+          />
+          <Information
+            title='Tempat'
+            isInput={isInput}
+            content={data?.tempat}
+            inputContent={
+              <Form.Item
+                name='tempat'
+                noStyle={!isInput}
+                rules={[
+                  { required: true, message: 'Field Tempat is required' },
+                ]}
+              >
+                <Input
+                  disabled={isSubmitting}
+                  autoComplete='off'
+                  className={styles.input}
+                  placeholder='Tulis tempat Study Group disini'
+                />
+              </Form.Item>
+            }
+          />
+          <Information
+            title='Deskripsi'
+            isInput={isInput}
+            content={data?.deskripsi}
+            inputContent={
+              <Form.Item
+                name='deskripsi'
+                noStyle={!isInput}
+                rules={[
+                  { required: true, message: 'Field Deskripsi is required' },
+                ]}
+              >
+                <Input
+                  disabled={isSubmitting}
+                  autoComplete='off'
+                  className={styles.input}
+                  placeholder='Tulis deskripsi singkat disini'
+                />
+              </Form.Item>
+            }
+          />
+        </div>
+
+        {isInput && (
+          <div className={styles.footer}>
+            <Button
+              disabled={isSubmitting}
+              type='ghost'
+              className='btn'
+              onClick={handleResetForm}
+            >
+              Reset
+            </Button>
+            <Button
+              loading={isSubmitting}
+              htmlType='submit'
+              className='btn btn-primary'
+            >
+              {submitText}
+            </Button>
+          </div>
+        )}
+        <Divider />
+      </Form>
+
       {children}
     </div>
   );
 };
+
 export default InformationCard;

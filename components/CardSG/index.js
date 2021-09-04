@@ -1,11 +1,14 @@
 import React from 'react';
-import { Button, Card, Skeleton, Modal } from 'antd';
+import { Button, Card, Skeleton, Modal, notification, message } from 'antd';
 import { DeleteOutlined, CloseOutlined } from '@ant-design/icons';
 import cn from 'classnames';
 import styles from './Card.module.less';
+import { mutate, useSWRConfig } from 'swr';
 import CardTitle from './CardTitle';
 import { formatLongDate, formatTime } from '@lib/formatDate';
 import Link from 'next/link';
+import api from '@lib/api';
+import { SuccesCreateNotification } from '@components/Notification';
 // Using require to import non-module .less files
 require('./Card.less');
 
@@ -28,7 +31,7 @@ const CardSG = ({
   allowDelete = false,
   type = 'default',
 }) => {
-  const handleDelete = () => {
+  const handleDelete = (id) => {
     confirm({
       className: styles.confirm,
       content: <p>Apakah Anda yakin ingin menghapus Study group ini?</p>,
@@ -39,9 +42,22 @@ const CardSG = ({
       okButtonProps: buttonConfirmProps,
       cancelButtonProps: buttonCancelProps,
       onOk() {
-        return new Promise((resolve, reject) => {
-          setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
-        }).catch(() => console.log('Oops errors!'));
+        return new Promise(async (resolve, reject) => {
+          try {
+            await api.delete(`/studygroup/${id}`);
+            message.open({
+              className: 'notification-success',
+              icon: null,
+              content: (
+                <SuccesCreateNotification title='Study Group telah berhasil dihapus' />
+              ),
+            });
+            mutate('/studygroup');
+            resolve();
+          } catch (err) {
+            reject();
+          }
+        });
       },
     });
   };
@@ -83,7 +99,7 @@ const CardSG = ({
       <div className={styles['card-footer']}>
         {allowDelete && (
           <Button
-            onClick={handleDelete}
+            onClick={() => handleDelete(id)}
             className={styles.delete}
             shape='circle'
             icon={<DeleteOutlined />}
