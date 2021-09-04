@@ -17,10 +17,15 @@
     background: @primary-gradient;
     border-radius: @border-size;
     padding: 2rem 4rem;
+    @media (max-width: 1366px) {
+      padding: 1rem;
+    }
+    @media (max-width: 640px) {
+      height: 300px;
+    }
     @media (max-width: 480px) {
       padding: 1rem 1rem;
       border-radius: 1rem;
-      height: 300px;
     }
   }
   &-form {
@@ -30,18 +35,26 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    div {
+    main {
       width: 100%;
       max-width: 400px;
     }
-    @media (max-width: 480px) {
+
+    @media (max-width: 1366px) {
+      margin-left: 1rem;
+    }
+    @media (max-width: 640px) {
+      display: block;
       margin-left: 0;
       margin-top: 1rem;
       height: unset;
+      main {
+        max-width: unset;
+      }
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 640px) {
     flex-direction: column;
   }
 }
@@ -57,6 +70,9 @@
   width: 50%;
   font-size: 9rem;
   color: white;
+  @media (max-width: 1366px) {
+    font-size: 5rem;
+  }
   @media (max-width: 480px) {
     font-size: 4rem;
   }
@@ -68,6 +84,10 @@
   color: transparent;
   -webkit-text-stroke-width: 3px;
   -webkit-text-stroke-color: rgb(255, 255, 255);
+  @media (max-width: 1366px) {
+    font-size: 4rem;
+    -webkit-text-stroke-width: 2px;
+  }
   @media (max-width: 480px) {
     font-size: 3rem;
     -webkit-text-stroke-width: 1px;

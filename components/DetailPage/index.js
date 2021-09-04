@@ -49,7 +49,7 @@ const columns = [
     title: 'Tanpa Keterangan',
     dataIndex: 'status',
     key: 'tanpaKeterangang',
-    // eslint-disable-next-line react/display-name
+    
     render: (data) =>
       data === 'tanpa keterangan' ? <CheckOutlined style={checkStyle} /> : null,
   },

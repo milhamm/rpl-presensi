@@ -7,4 +7,12 @@
 .button {
   width: 100%;
   border-radius: 8px;
+  background-color: black;
+  border-color: unset;
+  &:hover,
+  :focus {
+    background: black;
+    border-color: none;
+    box-shadow: 0.3rem 0.3rem 0px 0px @primary-color;
+  }
 }

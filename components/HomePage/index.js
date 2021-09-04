@@ -1,6 +1,9 @@
 import CardSG from '@components/CardSG';
+import { useAuth } from '@context/auth';
 import api from '@lib/api';
 import fetcher from '@lib/fetcher';
+import { Button } from 'antd';
+import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import useSWR from 'swr';
 import CardLists from './CardLists';
@@ -14,7 +17,9 @@ const dummyData = {
   time: '19.00',
 };
 
-const datass = [
+// const data = null;
+
+const dataaa = [
   {
     date: 'Kamis, 17 April 2021',
     title: 'Study Group UI/UX',
@@ -54,11 +59,7 @@ const datass = [
 ];
 
 const HomePage = () => {
-  const { data, error } = useSWR('/studygroup', fetcher);
-
-  if (!data) {
-    return 'Loading . . .';
-  }
+  const { data } = useSWR('/studygroup', fetcher);
 
   return (
     <>
@@ -70,31 +71,42 @@ const HomePage = () => {
               <br />
               Study Group
             </span>
+            <Button className={styles.cta} size='large'>
+              Buat Study Group
+            </Button>
           </h1>
         </div>
         <div className={styles.overview}>
-          <div className={styles['overview-cards']}>
-            <CardSG data={dummyData} loading={!!!dummyData} type='hero' />
-          </div>
-          <div className={styles['overview-lists']}>
-            <CardSG
-              data={dummyData}
-              loading={!!!dummyData}
-              showButton={false}
-              type='secondary'
-            />
-            <CardSG
-              data={dummyData}
-              loading={!!!dummyData}
-              showButton={false}
-              type='secondary'
-            />
-          </div>
+          {!!data && (
+            <>
+              <div className={styles['overview-cards']}>
+                <CardSG
+                  data={data.data[0]}
+                  loading={!!!dummyData}
+                  type='hero'
+                />
+              </div>
+              {data?.data.length >= 1 && (
+                <div className={styles['overview-lists']}>
+                  {data?.data.slice(1, 2).map((val, idx) => (
+                    <CardSG
+                      key={idx}
+                      data={val}
+                      loading={!!!dummyData}
+                      showButton={false}
+                      type='secondary'
+                    />
+                  ))}
+                </div>
+              )}
+            </>
+          )}
         </div>
       </div>
+
       <div className={styles['home-lists']}>
         <FilterList />
-        {data && <CardLists data={data.data} />}
+        <CardLists data={data?.data} />
       </div>
     </>
   );

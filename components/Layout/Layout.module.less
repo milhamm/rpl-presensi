@@ -1,8 +1,13 @@
+@footer-height: 80px;
+
 .main {
   position: relative;
   height: 100%;
   background: linear-gradient(172.53deg, #fdc830 -3.31%, #f37335 99.68%);
   padding-bottom: 3rem;
+  min-height: 100vh;
+  padding-bottom: calc(@footer-height + 10rem);
+  overflow-x: hidden;
 }
 
 .container {
@@ -11,5 +16,26 @@
   margin: 0 auto;
   position: relative;
   padding: 0 1.5rem;
-  padding-top: 80px;
+  // padding-top: 80px;
+}
+
+.footer {
+  // height: @footer-height;
+  width: 100%;
+  background-color: #272728;
+  bottom: 0;
+  position: absolute;
+  color: white;
+  .container {
+    padding: 2rem 1rem;
+    span {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      p {
+        font-size: 1.2rem;
+        width: 100px;
+      }
+    }
+  }
 }

@@ -1,9 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Image from 'next/image';
 import styles from './AuthLayout.module.less';
 import Calendar from '../../public/calendar.svg';
+import { useAuth } from '@context/auth';
+import { useRouter } from 'next/router';
 
 const AuthLayout = ({ children }) => {
+  const { isLoggedIn, isLoading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isLoggedIn && !isLoading) {
+      router.push('/');
+    }
+  }, [isLoggedIn, isLoading, router]);
+
+  if (isLoading) {
+    return null;
+  }
+
+  if (isLoggedIn) {
+    return null;
+  }
+
   return (
     <div className={styles.auth}>
       <div className={styles['auth-welcome']}>
@@ -14,7 +33,7 @@ const AuthLayout = ({ children }) => {
         </div>
       </div>
       <div className={styles['auth-form']}>
-        <div>{children}</div>
+        <main>{children}</main>
       </div>
     </div>
   );

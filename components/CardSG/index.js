@@ -59,7 +59,7 @@ const CardSG = ({
         'card'
       )}
       title={
-        <Link href={`/sg/${id}`}>
+        <Link href={`/sg/${id}`} scroll>
           <a>
             <CardTitle
               title={judul}

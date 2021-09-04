@@ -6,49 +6,69 @@ const AuthenticationContext = createContext();
 
 export const AuthenticationProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const router = useRouter();
 
-  useEffect(() => {
-    const validate = async () => {
-      setLoading(true);
-      const token = localStorage.getItem('token');
-      if (token) {
-        api.defaults.headers.Authorization = `Bearer ${token}`;
-        setUser(true);
-      }
-      setLoading(false);
-    };
+  const validate = () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const token = localStorage.getItem('token');
 
+        if (!!token) {
+          api.defaults.headers.Authorization = `Bearer ${token}`;
+          await api.get('/studygroup');
+          setUser(true);
+          resolve(true);
+        } else {
+          setError(404);
+          reject(false);
+        }
+      } catch (error) {
+        const status = error.response.status;
+        reject(false);
+        setError(status);
+      }
+    });
+  };
+
+  useEffect(() => {
     const handleResetError = () => {
       setError(null);
     };
 
-    router.events.on('routeChangeStart', handleResetError);
-    validate();
+    const waitForValidation = () => {
+      setLoading(true);
+      validate().finally(() => {
+        setLoading(false);
+      });
+    };
 
+    router.events.on('routeChangeStart', handleResetError);
+    waitForValidation();
     return () => {
       router.events.off('routeChangeStart', handleResetError);
     };
   }, []);
 
-  const login = async (payload) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await api.post('/user/login', payload);
-
-      api.defaults.headers.Authorization = `Bearer ${response.data.data.token}`;
-      localStorage.setItem('token', response.data.data.token);
-      setUser(response.data.data.token);
-      router.push('/');
-    } catch (error) {
-      console.log(error.response.data);
-      setError(error.response.data);
-    }
-    setLoading(false);
+  const login = (payload) => {
+    return new Promise(async (res, rej) => {
+      setError(null);
+      try {
+        const response = await api.post('/user/login', payload);
+        const token = response.data.data.token;
+        api.defaults.headers.Authorization = `Bearer ${token}`;
+        localStorage.setItem('token', token);
+        setUser(token);
+        router.push('/');
+        res();
+      } catch (error) {
+        console.log(error.response.data);
+        setError(error.response.data);
+        rej();
+      }
+    });
   };
 
   const logout = () => {
