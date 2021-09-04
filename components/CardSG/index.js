@@ -9,6 +9,7 @@ import { formatLongDate, formatTime } from '@lib/formatDate';
 import Link from 'next/link';
 import api from '@lib/api';
 import { SuccesCreateNotification } from '@components/Notification';
+import { DATE_SHORT_FORMAT } from '@constant/index';
 // Using require to import non-module .less files
 require('./Card.less');
 
@@ -79,7 +80,7 @@ const CardSG = ({
           <a>
             <CardTitle
               title={judul}
-              date={formatLongDate(tanggal)}
+              date={formatLongDate(tanggal, DATE_SHORT_FORMAT)}
               loading={loading}
             />
           </a>

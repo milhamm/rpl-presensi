@@ -1,63 +1,12 @@
 import CardSG from '@components/CardSG';
-import { useAuth } from '@context/auth';
-import api from '@lib/api';
+import React from 'react';
 import fetcher from '@lib/fetcher';
 import { Button } from 'antd';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
 import useSWR from 'swr';
 import CardLists from './CardLists';
 import FilterList from './FilterList';
 import styles from './HomePage.module.less';
-
-const dummyData = {
-  date: 'Kamis, 17 April 2021',
-  title: 'Study Group UI/UX',
-  tutor: 'Aang',
-  time: '19.00',
-};
-
-// const data = null;
-
-const dataaa = [
-  {
-    date: 'Kamis, 17 April 2021',
-    title: 'Study Group UI/UX',
-    tutor: 'Aang',
-    time: '19.00',
-  },
-  {
-    date: 'Kamis, 17 April 2021',
-    title: 'Study Group Frontend',
-    tutor: 'Anjoi',
-    time: '19.00',
-  },
-  {
-    date: 'Kamis, 17 April 2021',
-    title: 'Study Group UI/UX',
-    tutor: 'Aang',
-    time: '19.00',
-  },
-  {
-    date: 'Kamis, 17 April 2021',
-    title: 'Study Group Frontend',
-    tutor: 'Anjoi',
-    time: '19.00',
-  },
-  {
-    date: 'Kamis, 17 April 2021',
-    title: 'Study Group UI/UX',
-    tutor: 'Aang',
-    time: '19.00',
-  },
-  {
-    date: 'Kamis, 17 April 2021',
-    title: 'Study Group Frontend',
-    tutor: 'Anjoi',
-    time: '19.00',
-  },
-];
 
 const HomePage = () => {
   const { data } = useSWR('/studygroup', fetcher);
@@ -87,17 +36,17 @@ const HomePage = () => {
               <div className={styles['overview-cards']}>
                 <CardSG
                   data={data.data[0]}
-                  loading={!!!dummyData}
+                  loading={!!!data.data[0]}
                   type='hero'
                 />
               </div>
               {data?.data.length > 1 && (
                 <div className={styles['overview-lists']}>
-                  {data?.data.slice(1, 2).map((val, idx) => (
+                  {data?.data.slice(1, 3).map((val, idx) => (
                     <CardSG
                       key={idx}
                       data={val}
-                      loading={!!!dummyData}
+                      loading={!!!val}
                       showButton={false}
                       type='secondary'
                     />
