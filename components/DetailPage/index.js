@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table } from 'antd';
+import { Button, Card, Result, Table } from 'antd';
 import { CheckOutlined } from '@ant-design/icons';
 import styles from './DetailPage.module.less';
 import useSWR from 'swr';
@@ -62,8 +62,28 @@ const DetailPage = () => {
   // https://swr.vercel.app/docs/conditional-fetching
   const { data: sg, error } = useSWR(id ? `/presensi/${id}` : null, fetcher);
 
+  if (error) {
+    return (
+      <Card style={{ marginTop: '2rem', borderRadius: '2rem' }}>
+        <Result
+          status='404'
+          title='404'
+          subTitle='Yahh, Study Group ini tidak ada'
+          extra={
+            <Button
+              className='btn btn-primary'
+              onClick={() => router.push('/')}
+            >
+              Kembali ke home
+            </Button>
+          }
+        />
+      </Card>
+    );
+  }
+
   if (!sg) {
-    return 'Loading . . .';
+    return null;
   }
 
   return (

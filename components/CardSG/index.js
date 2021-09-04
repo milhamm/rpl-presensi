@@ -1,9 +1,9 @@
 import React from 'react';
-import { Button, Card, Skeleton, Modal, notification, message } from 'antd';
+import { Button, Card, Skeleton, Modal, message } from 'antd';
 import { DeleteOutlined, CloseOutlined } from '@ant-design/icons';
 import cn from 'classnames';
 import styles from './Card.module.less';
-import { mutate, useSWRConfig } from 'swr';
+import { mutate } from 'swr';
 import CardTitle from './CardTitle';
 import { formatLongDate, formatTime } from '@lib/formatDate';
 import Link from 'next/link';
