@@ -1,12 +1,14 @@
-import React from 'react';
-import { Button, Card, Result, Table } from 'antd';
+import React, { useState } from 'react';
+import { Button, Card, message, Result, Switch, Table } from 'antd';
 import { CheckOutlined } from '@ant-design/icons';
 import styles from './DetailPage.module.less';
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 import { useRouter } from 'next/router';
 import fetcher from '@lib/fetcher';
 
 import InformationCard from '@components/InformationCard';
+import { SuccesCreateNotification } from '@components/Notification';
+import api from '@lib/api';
 
 const checkStyle = {
   color: '#00C242',
@@ -58,6 +60,36 @@ const DetailPage = () => {
   const router = useRouter();
   const { id } = router.query;
 
+  const [isEditing, setEditing] = useState(false);
+
+  const handleToggleEditing = () => {
+    setEditing(!isEditing);
+  };
+
+  const handleSubmit = (data) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await api.put(`/studygroup/${id}`, data);
+        message.open({
+          className: 'notification-success',
+          content: (
+            <SuccesCreateNotification title='Study Group telah berhasil diubah!' />
+          ),
+          icon: null,
+        });
+        resolve();
+        setEditing(false);
+        mutate(id ? `/presensi/${id}` : null);
+      } catch (error) {
+        console.log(error.response);
+        message.error({
+          content: 'Gagal ubah wkwk',
+        });
+        reject();
+      }
+    });
+  };
+
   // https://github.com/vercel/next.js/discussions/15952#discussioncomment-47750
   // https://swr.vercel.app/docs/conditional-fetching
   const { data: sg, error } = useSWR(id ? `/presensi/${id}` : null, fetcher);
@@ -87,7 +119,22 @@ const DetailPage = () => {
   }
 
   return (
-    <InformationCard data={sg.data}>
+    <InformationCard
+      data={sg.data}
+      isInput={isEditing}
+      submitText='Simpan Perubahan'
+      extra={
+        <div>
+          Edit Mode
+          <Switch
+            style={{ marginLeft: '1rem' }}
+            checked={isEditing}
+            onChange={handleToggleEditing}
+          />
+        </div>
+      }
+      onSubmit={handleSubmit}
+    >
       <div className={styles.attendance}>
         <Table dataSource={sg.data.presensis} columns={columns} />
       </div>

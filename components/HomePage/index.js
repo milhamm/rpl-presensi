@@ -84,7 +84,6 @@ const HomePage = () => {
         <div className={styles.overview}>
           {data?.data.length > 0 && (
             <>
-              {console.log('Masul')}
               <div className={styles['overview-cards']}>
                 <CardSG
                   data={data.data[0]}

@@ -1,9 +1,16 @@
-import { Divider, Input, DatePicker, PageHeader, Form, Button } from 'antd';
-import React, { useImperativeHandle, useRef, useState } from 'react';
+import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
+import { Divider, Input, PageHeader, Form, Button, ConfigProvider } from 'antd';
+import DatePicker from '@components/Datepicker';
 import Information from './Information';
 import styles from './InformationCard.module.less';
 import { formatLongDate } from '@lib/formatDate';
 import dayjs from 'dayjs';
+import 'dayjs/locale/id';
+import { DATE_FORMAT } from '@constant/index';
+import locale from 'antd/lib/locale/id_ID';
+
+dayjs.locale('id');
 
 const InformationCard = ({
   title = 'Laporan Study Group',
@@ -12,6 +19,7 @@ const InformationCard = ({
   children,
   onSubmit,
   submitText = 'Buat Study Group',
+  extra = null,
 }) => {
   const [form] = Form.useForm();
   const [isSubmitting, setSubmitting] = useState(false);
@@ -31,13 +39,35 @@ const InformationCard = ({
     form.resetFields();
   };
 
+  const initialData = data
+    ? {
+        divisi: data.divisi,
+        penutor: data.penutor,
+        judul: data.judul,
+        tempat: data.tempat,
+        deskripsi: data.deskripsi,
+        tanggal: dayjs(data.tanggal),
+      }
+    : {};
+
   return (
     <div className={styles.main}>
       <div className={styles.header}>
-        <PageHeader className={styles['page-header']} title={title} />
+        <PageHeader
+          className={styles['page-header']}
+          title={title}
+          extra={extra}
+        />
       </div>
 
-      <Form form={form} onFinish={handleFinishForm}>
+      <Divider />
+
+      <Form
+        scrollToFirstError
+        initialValues={initialData}
+        form={form}
+        onFinish={handleFinishForm}
+      >
         <div className={styles.info}>
           <Information
             title='Divisi'
@@ -52,6 +82,7 @@ const InformationCard = ({
                 ]}
               >
                 <Input
+                  autoComplete='off'
                   disabled={isSubmitting}
                   className={styles.input}
                   placeholder='Pilih Divisi Study Group'
@@ -104,20 +135,23 @@ const InformationCard = ({
             isInput={isInput}
             content={data ? formatLongDate(data?.tanggal) : ''}
             inputContent={
-              <Form.Item
-                name='tanggal'
-                noStyle={!isInput}
-                rules={[
-                  { required: true, message: 'Field Tanggal is required' },
-                ]}
-              >
-                <DatePicker
-                  disabled={isSubmitting}
-                  showTime
-                  className={styles.input}
-                  placeholder='Pilih tanggal Study Group disini'
-                />
-              </Form.Item>
+              <ConfigProvider locale={locale}>
+                <Form.Item
+                  name='tanggal'
+                  noStyle={!isInput}
+                  rules={[
+                    { required: true, message: 'Field Tanggal is required' },
+                  ]}
+                >
+                  <DatePicker
+                    format={DATE_FORMAT}
+                    disabled={isSubmitting}
+                    showTime
+                    className={styles.input}
+                    placeholder='Pilih tanggal Study Group disini'
+                  />
+                </Form.Item>
+              </ConfigProvider>
             }
           />
           <Information
@@ -163,6 +197,8 @@ const InformationCard = ({
             }
           />
         </div>
+        <Divider />
+        {children}
 
         {isInput && (
           <div className={styles.footer}>
@@ -183,10 +219,7 @@ const InformationCard = ({
             </Button>
           </div>
         )}
-        <Divider />
       </Form>
-
-      {children}
     </div>
   );
 };

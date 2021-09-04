@@ -109,7 +109,7 @@ const CardSG = ({
         {showButton && !loading && (
           <Link href={`/sg/${id}`}>
             <a>
-              <Button className='btn-primary'>Lihat Selengkapnya</Button>
+              <Button className='btn btn-primary'>Lihat Selengkapnya</Button>
             </a>
           </Link>
         )}

@@ -4,9 +4,9 @@ import { useRouter } from 'next/router';
 import { SuccesCreateNotification } from '@components/Notification';
 import InformationCard from '@components/InformationCard';
 import api from '@lib/api';
+import { waiter } from '@lib/waiter';
 
 const NewPage = () => {
-  const waiter = () => new Promise((res) => setTimeout(res, 500));
   const router = useRouter();
 
   const handleSubmit = (data) => {
@@ -17,6 +17,7 @@ const NewPage = () => {
         await waiter();
         message.open({
           className: 'notification-success',
+          duration: 6,
           content: (
             <SuccesCreateNotification
               title='Study Group telah berhasil dibuat!'
@@ -29,7 +30,7 @@ const NewPage = () => {
         resolve();
       } catch (error) {
         message.error({
-          content: 'Error Gan',
+          content: 'Error Gan wkwkwk',
         });
         reject();
       }
