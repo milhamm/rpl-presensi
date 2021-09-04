@@ -1,0 +1,40 @@
+@import url('../../styles/globals.less');
+
+.main {
+  background: white;
+  margin-top: 4rem;
+  padding: 2rem 3rem;
+  border-radius: 2rem;
+  height: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  h1 {
+    font-weight: bold;
+    font-size: 2em;
+    margin-bottom: 0;
+  }
+}
+
+.page-header {
+  padding-left: unset;
+  span {
+    font-weight: bold;
+    font-size: 2em;
+  }
+}
+
+.info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem 2rem;
+}
+
+.input {
+  .input-base();
+  width: 100%;
+  border-color: rgba(0, 0, 0, 0.2);
+  border-width: 1px;
+}

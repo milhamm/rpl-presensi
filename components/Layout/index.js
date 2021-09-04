@@ -1,13 +1,13 @@
 import CircleDecor from '@components/CircleDecor';
 import Navbar from '@components/Navbar';
-import React, { useEffect } from 'react';
+import React from 'react';
 import styles from './Layout.module.less';
 import Image from 'next/image';
 
-const Layout = ({ children, hideNavbar = false }) => {
+const Layout = ({ children }) => {
   return (
-    <main className={styles.main}>
-      {!hideNavbar && <Navbar />}
+    <div className={styles.main}>
+      <Navbar />
       <CircleDecor type={1} />
       <CircleDecor type={2} />
       <CircleDecor type={3} />
@@ -22,7 +22,7 @@ const Layout = ({ children, hideNavbar = false }) => {
           </span>
         </div>
       </footer>
-    </main>
+    </div>
   );
 };
 

@@ -1,13 +1,12 @@
-import { Divider, Table } from 'antd';
-
 import React from 'react';
+import { Table } from 'antd';
 import { CheckOutlined } from '@ant-design/icons';
 import styles from './DetailPage.module.less';
-import Information from './Information';
 import useSWR from 'swr';
 import { useRouter } from 'next/router';
 import fetcher from '@lib/fetcher';
-import { formatLongDate } from '@lib/formatDate';
+
+import InformationCard from '@components/InformationCard';
 
 const checkStyle = {
   color: '#00C242',
@@ -49,7 +48,7 @@ const columns = [
     title: 'Tanpa Keterangan',
     dataIndex: 'status',
     key: 'tanpaKeterangang',
-    
+    // eslint-disable-next-line react/display-name
     render: (data) =>
       data === 'tanpa keterangan' ? <CheckOutlined style={checkStyle} /> : null,
   },
@@ -68,25 +67,11 @@ const DetailPage = () => {
   }
 
   return (
-    <div className={styles.main}>
-      <div className={styles.header}>
-        <h1>Laporan Study Group</h1>
-      </div>
-      <Divider />
-      <div className={styles.info}>
-        <Information title='Divisi' content={sg.data.tempat} />
-        <Information title='Penutor' content={sg.data.penutor} />
-        <Information title='Materi' content={sg.data.judul} />
-        <Information
-          title='Tanggal'
-          content={formatLongDate(sg.data.tanggal)}
-        />
-      </div>
-      <Divider />
+    <InformationCard data={sg.data}>
       <div className={styles.attendance}>
         <Table dataSource={sg.data.presensis} columns={columns} />
       </div>
-    </div>
+    </InformationCard>
   );
 };
 
