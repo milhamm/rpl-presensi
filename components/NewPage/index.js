@@ -6,7 +6,7 @@ import InformationCard from '@components/InformationCard';
 import api from '@lib/api';
 
 const NewPage = () => {
-  const waiter = () => new Promise((res) => setTimeout(res, 1000));
+  const waiter = () => new Promise((res) => setTimeout(res, 500));
   const router = useRouter();
 
   const handleSubmit = (data) => {
