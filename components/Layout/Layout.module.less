@@ -1,3 +1,4 @@
+@import url('/styles/variables.less');
 @footer-height: 80px;
 
 .main {
@@ -16,6 +17,9 @@
   margin: 0 auto;
   position: relative;
   padding: 0 1.5rem;
+  @media @mobile {
+    padding: 0.7rem;
+  }
   // padding-top: 80px;
 }
 

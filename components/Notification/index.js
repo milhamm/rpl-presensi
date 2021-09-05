@@ -16,7 +16,7 @@ const SuccesCreateNotification = ({ title, text }) => {
   return (
     <div className={styles.notification}>
       <div className={styles.logo}>
-        <Lottie options={defaultOptions} width={120} height={120} />
+        <Lottie options={defaultOptions} width={80} height={80} />
       </div>
       <div className={styles.content}>
         <p className={styles.title}>{title}</p>

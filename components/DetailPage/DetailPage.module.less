@@ -1,4 +1,5 @@
 @import url('/styles/globals.less');
+@import url('/styles/variables.less');
 
 .attendance {
   margin-bottom: 2rem;
@@ -21,9 +22,15 @@
 .heading {
   padding-left: 0;
   padding-top: 0;
+  padding-right: 0;
   padding-bottom: 2rem;
   span {
     color: @primary-color;
+  }
+  div {
+    @media @mobile {
+      width: 100% !important;
+    }
   }
 }
 

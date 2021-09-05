@@ -9,9 +9,17 @@
   border-radius: 8px;
   background-color: black;
   border-color: unset;
+
+  &:active,
+  :focus,
+  :visited {
+    background-color: black !important;
+  }
+
   &:hover,
-  :focus {
-    background: black;
+  :focus,
+  :active {
+    background: black !important;
     border-color: none;
     box-shadow: 0.3rem 0.3rem 0px 0px @primary-color;
   }

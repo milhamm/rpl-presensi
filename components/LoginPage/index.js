@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, message } from 'antd';
 import styles from './LoginPage.module.less';
 import { useAuth } from '@context/auth';
 import router from 'next/router';
@@ -10,7 +10,25 @@ const LoginPage = () => {
 
   const onFinish = async (values) => {
     setLoading(true);
-    await login(values);
+    try {
+      await login(values);
+    } catch (error) {
+      console.log(error);
+      if (Array.isArray(error)) {
+        error.map((val) => {
+          const key = Object.keys(val)[0];
+          const errorMessage = val[key];
+          message.error({
+            content: errorMessage,
+          });
+        });
+      } else {
+        message.error({
+          content: 'Something went wrong, check your username and password',
+        });
+      }
+    }
+    setLoading(false);
   };
 
   return (

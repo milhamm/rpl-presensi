@@ -222,8 +222,7 @@ const DetailPage = () => {
             <Search
               className={styles.search}
               enterButton
-              size='large'
-              placeholder='Masukkan nama anggota'
+              placeholder='Masukkan nama'
               onChange={(e) => {
                 e.stopPropagation();
                 setSearchValue(e.target.value);
@@ -237,6 +236,7 @@ const DetailPage = () => {
           pagination={false}
           dataSource={dataSource}
           columns={columns}
+          scroll={{ x: 600 }}
         />
       </div>
     </InformationCard>

@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import styles from '../../styles/Detail.module.less';
 import DetailPage from '@components/DetailPage';
+import withAuth from '@lib/withAuth';
 
 const DetailSG = () => {
   return (
@@ -15,4 +16,4 @@ const DetailSG = () => {
   );
 };
 
-export default DetailSG;
+export default withAuth(DetailSG);

@@ -1,3 +1,4 @@
+import withAuth from '@lib/withAuth';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 
@@ -11,4 +12,4 @@ const SG = () => {
   return null;
 };
 
-export default SG;
+export default withAuth(SG);

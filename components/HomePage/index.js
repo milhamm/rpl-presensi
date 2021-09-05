@@ -1,12 +1,13 @@
 import CardSG from '@components/CardSG';
 import React from 'react';
 import fetcher from '@lib/fetcher';
-import { Button } from 'antd';
+import { Button, Divider } from 'antd';
 import Link from 'next/link';
 import useSWR from 'swr';
 import CardLists from './CardLists';
 import FilterList from './FilterList';
 import styles from './HomePage.module.less';
+import SearchBar from './SearchBar';
 
 const HomePage = () => {
   const { data } = useSWR('/studygroup', fetcher);
@@ -21,6 +22,7 @@ const HomePage = () => {
               <br />
               Study Group
             </span>
+            <br />
             <Link href='/sg/new'>
               <a>
                 <Button className={styles.cta} size='large'>
@@ -59,7 +61,9 @@ const HomePage = () => {
       </div>
 
       <div className={styles['home-lists']}>
+        <SearchBar />
         <FilterList />
+        <Divider />
         {data && <CardLists data={data?.data} />}
       </div>
     </>

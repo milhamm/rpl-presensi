@@ -3,14 +3,18 @@
 .hero {
   display: flex;
   height: calc(100vh - 8rem);
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 
   @media @laptop-md {
     padding-top: 7rem;
     height: unset;
-    margin-bottom: 2rem;
+    margin-bottom: 6rem;
     flex-direction: column;
+  }
+
+  @media @mobile {
+    padding-top: 2rem;
   }
 }
 
@@ -22,6 +26,7 @@
   h1 {
     color: white;
     span {
+      width: 100%;
       font-weight: bold;
     }
   }
@@ -58,6 +63,7 @@
 
 .home {
   &-lists {
+    position: relative;
     background: white;
     border-radius: 2rem;
     padding: 3rem 3rem;

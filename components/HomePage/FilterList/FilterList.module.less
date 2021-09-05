@@ -2,12 +2,19 @@
 
 .filter {
   width: 100%;
+  margin-top: 2rem;
   display: flex;
   justify-content: flex-end;
+  .ant-col {
+    @media @mobile {
+      flex-grow: 1 !important;
+    }
+  }
 }
 
 .input {
   .input-base();
   border-color: rgba(0, 0, 0, 0.2);
   border-width: 1px;
+  width: 100%;
 }

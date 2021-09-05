@@ -64,9 +64,9 @@ export const AuthenticationProvider = ({ children }) => {
         router.push('/');
         res();
       } catch (error) {
-        console.log(error.response.data);
-        setError(error.response.data);
-        rej();
+        // console.log(error.response.data);
+        setError(error.response.data.data);
+        rej(error.response.data.data);
       }
     });
   };

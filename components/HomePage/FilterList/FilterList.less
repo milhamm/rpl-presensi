@@ -1,3 +1,11 @@
+@import url('/styles/variables.less');
+
 .ant-form-inline .ant-form-item {
   align-items: center;
+}
+
+.ant-col {
+  @media only screen and (max-width: 540px) {
+    flex-grow: 1 !important;
+  }
 }
