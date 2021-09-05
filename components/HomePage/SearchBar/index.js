@@ -4,7 +4,7 @@ const { Search } = Input;
 
 import styles from './SearchBar.module.less';
 
-const SearchBar = ({ onJudulChange }) => {
+const SearchBar = ({ onJudulChange, disabled }) => {
   const handleJudulChange = (e) => {
     onJudulChange(e.target.value, 'judul');
   };
@@ -16,6 +16,7 @@ const SearchBar = ({ onJudulChange }) => {
       bordered={false}
     >
       <Search
+        disabled={disabled}
         onChange={handleJudulChange}
         className={styles.bar}
         enterButton

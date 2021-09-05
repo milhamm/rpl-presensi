@@ -27,19 +27,21 @@ const Navbar = () => {
   return (
     <nav className={cx(styles.navbar, { [styles.solid]: active })}>
       <div className={styles.container}>
-        <Link href='/'>
-          <a>
-            <div className={styles.brand}>
-              <Image
-                src='/presensi-logo.png'
-                width='110'
-                height='110'
-                alt='Presensi Logo'
-              />
-            </div>
-            <div className={styles.name}>Presensi by RPL-GDC</div>
-          </a>
-        </Link>
+        <div>
+          <Link href='/'>
+            <a>
+              <div className={styles.brand}>
+                <Image
+                  src='/presensi-logo.png'
+                  width='110'
+                  height='110'
+                  alt='Presensi Logo'
+                />
+              </div>
+              <div className={styles.name}>Presensi by RPL-GDC</div>
+            </a>
+          </Link>
+        </div>
 
         <div className={styles.actions}>
           <Popover

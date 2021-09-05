@@ -10,7 +10,12 @@ import 'dayjs/locale/id';
 import { DATE_FORMAT } from '@constant/index';
 import locale from 'antd/lib/locale/id_ID';
 
+let customLocale = locale;
+customLocale.DatePicker.lang.ok = 'Simpan';
+
 dayjs.locale('id');
+
+console.log(locale);
 
 const InformationCard = ({
   title = 'Laporan Study Group',
@@ -138,7 +143,7 @@ const InformationCard = ({
             isInput={isInput}
             content={data ? formatLongDate(data?.tanggal) : ''}
             inputContent={
-              <ConfigProvider locale={locale}>
+              <ConfigProvider locale={customLocale}>
                 <Form.Item
                   name='tanggal'
                   noStyle={!isInput}
@@ -150,6 +155,7 @@ const InformationCard = ({
                     format={DATE_FORMAT}
                     disabled={isSubmitting}
                     showTime
+                    showSecond={false}
                     className={styles.input}
                     placeholder='Pilih tanggal Study Group disini'
                   />

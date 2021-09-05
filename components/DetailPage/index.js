@@ -172,8 +172,6 @@ const DetailPage = () => {
     Fetcher.get
   );
 
-  console.log(screens);
-
   if (error) {
     return (
       <Card style={{ marginTop: '2rem', borderRadius: '2rem' }}>

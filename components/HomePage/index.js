@@ -9,7 +9,6 @@ import styles from './HomePage.module.less';
 import SearchBar from './SearchBar';
 import { useDebounce } from 'hooks/useDebounce';
 import Fetcher from '@lib/fetcher';
-import dayjs from 'dayjs';
 
 const HomePage = () => {
   const [filter, setFilter] = useState({});
@@ -32,8 +31,6 @@ const HomePage = () => {
       setFilter({ ...filter, [key]: data });
     }
   };
-
-  console.log(debouncedFilter);
 
   return (
     <>
@@ -84,10 +81,14 @@ const HomePage = () => {
       </div>
 
       <div className={styles['home-lists']}>
-        <SearchBar onJudulChange={handleFilterChange} />
+        <SearchBar
+          onJudulChange={handleFilterChange}
+          disabled={!('tanggal' in filter)}
+        />
         <FilterList
           onPenutorChange={handleFilterChange}
           onTanggalChange={handleFilterChange}
+          disabled={!('tanggal' in filter)}
         />
         <Divider />
         {data && (
