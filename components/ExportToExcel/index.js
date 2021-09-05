@@ -1,3 +1,4 @@
+import { Button } from 'antd';
 import React from 'react';
 import ReactExport from 'react-data-export';
 
@@ -77,12 +78,12 @@ const multiDataSet = [
   },
 ];
 
-const ExportToExcel = () => {
+const ExportToExcel = React.forwardRef((props, ref) => {
   return (
-    <ExcelFile element={<button>Download Data With Styles</button>}>
+    <ExcelFile element={<Button>Download Data With Styles</Button>}>
       <ExcelSheet dataSet={multiDataSet} name='Organization' />
     </ExcelFile>
   );
-};
+});
 
 export default ExportToExcel;

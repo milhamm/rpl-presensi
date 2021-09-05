@@ -65,7 +65,7 @@ const CardSG = ({
 
   return (
     <Card
-      bordered={false}
+      // bordered={false}
       className={cn(
         styles.card,
         {

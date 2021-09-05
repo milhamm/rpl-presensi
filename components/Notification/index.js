@@ -5,7 +5,7 @@ import animationData from '../../lottie/69380-success-check.json';
 
 const SuccesCreateNotification = ({ title, text }) => {
   const defaultOptions = {
-    loop: true,
+    loop: false,
     autoplay: true,
     animationData: animationData,
     rendererSettings: {

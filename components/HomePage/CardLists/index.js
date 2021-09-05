@@ -9,13 +9,7 @@ const CardLists = ({ data }) => {
       className={styles.list}
       grid={{ gutter: 16, xs: 1, sm: 1, md: 2, lg: 3, xl: 3, xxl: 3 }}
       dataSource={data}
-      pagination={{
-        hideOnSinglePage: true,
-        onChange: (page) => {
-          // console.log(page);
-        },
-        pageSize: 6,
-      }}
+      pagination={false}
       renderItem={(item) => (
         <List.Item>
           <CardSG data={item} allowDelete />

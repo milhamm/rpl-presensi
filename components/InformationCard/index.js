@@ -1,21 +1,27 @@
 import React, { useState } from 'react';
-import dynamic from 'next/dynamic';
-import { Divider, Input, PageHeader, Form, Button, ConfigProvider } from 'antd';
+import {
+  Divider,
+  Input,
+  PageHeader,
+  Form,
+  Button,
+  ConfigProvider,
+  Select,
+} from 'antd';
 import DatePicker from '@components/Datepicker';
 import Information from './Information';
 import styles from './InformationCard.module.less';
 import { formatLongDate } from '@lib/formatDate';
 import dayjs from 'dayjs';
 import 'dayjs/locale/id';
-import { DATE_FORMAT } from '@constant/index';
+import { DATE_FORMAT, DIVISIONS } from '@constant/index';
 import locale from 'antd/lib/locale/id_ID';
+
+const { Option } = Select;
 
 let customLocale = locale;
 customLocale.DatePicker.lang.ok = 'Simpan';
-
 dayjs.locale('id');
-
-console.log(locale);
 
 const InformationCard = ({
   title = 'Laporan Study Group',
@@ -89,12 +95,19 @@ const InformationCard = ({
                   { required: true, message: 'Field Divisi is required' },
                 ]}
               >
-                <Input
+                <Select className={styles.select}>
+                  {DIVISIONS.map((val, idx) => (
+                    <Option key={idx} value={val}>
+                      {val}
+                    </Option>
+                  ))}
+                </Select>
+                {/* <Input
                   autoComplete='off'
                   disabled={isSubmitting}
                   className={styles.input}
                   placeholder='Pilih Divisi Study Group'
-                />
+                /> */}
               </Form.Item>
             }
           />

@@ -13,6 +13,7 @@ const NewPage = () => {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await api.post('/studygroup', data);
+        console.log(response.data);
         router.push('/');
         await waiter();
         message.open({

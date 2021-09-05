@@ -11,8 +11,14 @@ import {
   PageHeader,
   Tag,
   Grid,
+  Dropdown,
+  Menu,
 } from 'antd';
-import { CheckOutlined } from '@ant-design/icons';
+import {
+  CheckOutlined,
+  FileExcelOutlined,
+  FilePdfOutlined,
+} from '@ant-design/icons';
 import styles from './DetailPage.module.less';
 import useSWR, { mutate } from 'swr';
 import { useRouter } from 'next/router';
@@ -210,17 +216,29 @@ const DetailPage = () => {
       isInput={isEditing}
       onReset={handleReset}
       submitText='Simpan Perubahan'
-      extra={[
-        <div key='edit'>
-          Edit Mode
-          <Switch
-            style={{ marginLeft: '1rem' }}
-            checked={isEditing}
-            onChange={handleToggleEditing}
-          />
-        </div>,
-        // <ExportToExcel />,
-      ]}
+      extra={
+        <div className={styles.extra}>
+          <div key='edit'>
+            Edit Mode
+            <Switch
+              style={{ marginLeft: '1rem' }}
+              checked={isEditing}
+              onChange={handleToggleEditing}
+            />
+          </div>
+          <Dropdown.Button
+            overlay={
+              <Menu>
+                <Menu.Item icon={<FilePdfOutlined />}>PDF</Menu.Item>
+                <Menu.Item icon={<FileExcelOutlined />}>Excel</Menu.Item>
+              </Menu>
+            }
+          >
+            Export
+          </Dropdown.Button>
+          {/* <ExportToExcel /> */}
+        </div>
+      }
       onSubmit={handleSubmit}
     >
       <div className={styles.attendance}>
