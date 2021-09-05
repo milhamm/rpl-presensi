@@ -18,6 +18,7 @@ const InformationCard = ({
   data,
   children,
   onSubmit,
+  onReset,
   submitText = 'Buat Study Group',
   extra = null,
 }) => {
@@ -37,6 +38,7 @@ const InformationCard = ({
 
   const handleResetForm = () => {
     form.resetFields();
+    onReset();
   };
 
   const initialData = data
@@ -66,6 +68,7 @@ const InformationCard = ({
         scrollToFirstError
         initialValues={initialData}
         form={form}
+        component={isInput ? 'form' : false}
         onFinish={handleFinishForm}
       >
         <div className={styles.info}>
@@ -212,7 +215,7 @@ const InformationCard = ({
             </Button>
             <Button
               loading={isSubmitting}
-              htmlType='submit'
+              onClick={form.submit}
               className='btn btn-primary'
             >
               {submitText}

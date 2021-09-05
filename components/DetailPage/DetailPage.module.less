@@ -1,2 +1,39 @@
+@import url('/styles/globals.less');
+
 .attendance {
+  margin-bottom: 2rem;
+  table {
+    border-radius: 0.8rem !important;
+    border: 1px solid @primary-color;
+  }
+  th {
+    background: @primary-color !important;
+    font-weight: bold !important;
+    &:first-child {
+      border-top-left-radius: 0.5rem !important;
+    }
+    &:last-child {
+      border-top-right-radius: 0.5rem !important;
+    }
+  }
+}
+
+.heading {
+  padding-left: 0;
+  padding-top: 0;
+  padding-bottom: 2rem;
+  span {
+    color: @primary-color;
+  }
+}
+
+.search {
+  input {
+    border-radius: 0.5rem;
+  }
+  button {
+    border-top-right-radius: 0.5rem !important;
+    border-bottom-right-radius: 0.5rem !important;
+    .btn-primary();
+  }
 }
