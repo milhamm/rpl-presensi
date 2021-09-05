@@ -162,7 +162,7 @@ const DetailPage = () => {
         setSelectedData({});
         mutate(id ? `/presensi/${id}` : null);
       } catch (error) {
-        console.log(error.response);
+        // console.log(error.response);
         message.error({
           content: 'Gagal ubah wkwk',
         });

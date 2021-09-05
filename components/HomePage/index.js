@@ -9,14 +9,18 @@ import styles from './HomePage.module.less';
 import SearchBar from './SearchBar';
 import { useDebounce } from 'hooks/useDebounce';
 import Fetcher from '@lib/fetcher';
+import api from '@lib/api';
+import { useAuth } from '@context/auth';
 
 const HomePage = () => {
+  const { isLoggedIn } = useAuth();
+
+  const { data } = useSWR(isLoggedIn ? '/studygroup' : null, Fetcher.get);
+
   const [filter, setFilter] = useState({});
   const debouncedFilter = useDebounce(filter, 500);
-  const isHasFilter =
-    Object.keys(debouncedFilter).length > 0 && 'tanggal' in debouncedFilter;
+  const isHasFilter = Object.keys(filter).length > 0 && 'tanggal' in filter;
 
-  const { data } = useSWR('/studygroup', Fetcher.get);
   const { data: filteredData } = useSWR(
     isHasFilter ? ['/studygroup/search', debouncedFilter] : null,
     Fetcher.post
@@ -31,6 +35,10 @@ const HomePage = () => {
       setFilter({ ...filter, [key]: data });
     }
   };
+
+  if (!data) {
+    return null;
+  }
 
   return (
     <>

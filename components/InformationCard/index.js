@@ -42,7 +42,7 @@ const InformationCard = ({
     try {
       await onSubmit(newFormat);
     } catch (error) {
-      console.log(error);
+      console.log('Handle Finish Form', error);
     }
     setSubmitting(false);
   };
@@ -95,7 +95,10 @@ const InformationCard = ({
                   { required: true, message: 'Field Divisi is required' },
                 ]}
               >
-                <Select className={styles.select}>
+                <Select
+                  className={styles.select}
+                  placeholder='Pilih divisi disini'
+                >
                   {DIVISIONS.map((val, idx) => (
                     <Option key={idx} value={val}>
                       {val}

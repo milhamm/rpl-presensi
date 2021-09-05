@@ -15,15 +15,6 @@ module.exports = withAntdLess({
 
   // Other Config Here...
   webpack(config, { buildId, dev, isServer, defaultLoaders, webpack }) {
-    console.log(config.node);
-    // config.vendor.push('xlsx', 'file-saver');
-    // config.node = { ...config.node, fs: 'empty' };
-    // config.externals.push(
-    //   { '../xlsx': 'var _XLSX' },
-    //   { './cptable': 'var cptable' },
-    //   { './jszip': 'jszip' }
-    // );
-
     if (!isServer) {
       config.resolve.fallback.fs = false;
     }

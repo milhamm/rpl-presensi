@@ -13,7 +13,7 @@ const LoginPage = () => {
     try {
       await login(values);
     } catch (error) {
-      console.log(error);
+      console.log('OnFinish', error);
       if (Array.isArray(error)) {
         error.map((val) => {
           const key = Object.keys(val)[0];

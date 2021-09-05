@@ -15,10 +15,10 @@ export const AuthenticationProvider = ({ children }) => {
     return new Promise(async (resolve, reject) => {
       try {
         const token = localStorage.getItem('token');
-
         if (!!token) {
           api.defaults.headers.Authorization = `Bearer ${token}`;
-          await api.get('/studygroup');
+          // console.log('Masuk Sini', api.defaults);
+          // await api.get('/studygroup');
           setUser(true);
           resolve(true);
         } else {
@@ -40,7 +40,7 @@ export const AuthenticationProvider = ({ children }) => {
 
     const waitForValidation = () => {
       setLoading(true);
-      validate().finally(() => {
+      validate().then(() => {
         setLoading(false);
       });
     };
