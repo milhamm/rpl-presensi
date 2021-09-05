@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Card, message, Result, Switch, Table } from 'antd';
+import { Button, Card, message, Radio, Result, Switch, Table } from 'antd';
 import { CheckOutlined } from '@ant-design/icons';
 import styles from './DetailPage.module.less';
 import useSWR, { mutate } from 'swr';
@@ -9,6 +9,7 @@ import fetcher from '@lib/fetcher';
 import InformationCard from '@components/InformationCard';
 import { SuccesCreateNotification } from '@components/Notification';
 import api from '@lib/api';
+import axios from 'axios';
 
 const checkStyle = {
   color: '#00C242',
@@ -16,49 +17,10 @@ const checkStyle = {
   fontWeight: 'bold',
 };
 
-const columns = [
-  {
-    title: 'Nama',
-    dataIndex: 'nama',
-    key: 'nama',
-  },
-  {
-    title: 'Mengikuti',
-    dataIndex: 'status',
-    key: 'mengikuti',
-    // eslint-disable-next-line react/display-name
-    render: (data) =>
-      data === 'hadir' ? <CheckOutlined style={checkStyle} /> : null,
-  },
-  {
-    title: 'Izin',
-    dataIndex: 'status',
-    key: 'izin',
-    // eslint-disable-next-line react/display-name
-    render: (data) =>
-      data === 'izin' ? <CheckOutlined style={checkStyle} /> : null,
-  },
-  {
-    title: 'Sakit',
-    dataIndex: 'status',
-    key: 'sakit',
-    // eslint-disable-next-line react/display-name
-    render: (data) =>
-      data === 'sakit' ? <CheckOutlined style={checkStyle} /> : null,
-  },
-  {
-    title: 'Tanpa Keterangan',
-    dataIndex: 'status',
-    key: 'tanpaKeterangang',
-    // eslint-disable-next-line react/display-name
-    render: (data) =>
-      data === 'tanpa keterangan' ? <CheckOutlined style={checkStyle} /> : null,
-  },
-];
-
 const DetailPage = () => {
   const router = useRouter();
   const { id } = router.query;
+  const [selectedData, setSelectedData] = useState({});
 
   const [isEditing, setEditing] = useState(false);
 
@@ -66,10 +28,81 @@ const DetailPage = () => {
     setEditing(!isEditing);
   };
 
+  const renderDataItem = ({ data, key, isEditing, record }) => {
+    const isOnSelectedData =
+      record?.id in selectedData
+        ? selectedData[record?.id].status === key
+        : data === key;
+
+    if (isEditing) {
+      return (
+        <Radio
+          checked={isOnSelectedData}
+          onChange={() => {
+            setSelectedData({ ...selectedData, [record.id]: { status: key } });
+          }}
+        />
+      );
+    } else {
+      if (data === key) {
+        return <CheckOutlined style={checkStyle} />;
+      } else {
+        return null;
+      }
+    }
+  };
+
+  const columns = [
+    {
+      title: 'Nama',
+      dataIndex: 'nama',
+      key: 'nama',
+    },
+    {
+      title: 'Mengikuti',
+      dataIndex: 'status',
+      key: 'mengikuti',
+      // eslint-disable-next-line react/display-name
+      render: (data, record) =>
+        renderDataItem({ data: data, key: 'hadir', isEditing, record }),
+    },
+    {
+      title: 'Izin',
+      dataIndex: 'status',
+      key: 'izin',
+      // eslint-disable-next-line react/display-name
+      render: (data, record) =>
+        renderDataItem({ data: data, key: 'izin', isEditing, record }),
+    },
+    {
+      title: 'Sakit',
+      dataIndex: 'status',
+      key: 'sakit',
+      // eslint-disable-next-line react/display-name
+      render: (data, record) =>
+        renderDataItem({ data: data, key: 'sakit', isEditing, record }),
+    },
+    {
+      title: 'Tanpa Keterangan',
+      dataIndex: 'status',
+      key: 'tanpaKeterangang',
+      // eslint-disable-next-line react/display-name
+      render: (data, record) =>
+        renderDataItem({ data: data, key: 'alpha', isEditing, record }),
+    },
+  ];
+
   const handleSubmit = (data) => {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await api.put(`/studygroup/${id}`, data);
+        if (Object.keys(selectedData).length > 0) {
+          await axios.all(
+            Object.keys(selectedData).map((key) => {
+              api.put(`/presensi/${key}`, { status: selectedData[key].status });
+            })
+          );
+        }
         message.open({
           className: 'notification-success',
           content: (
@@ -79,6 +112,7 @@ const DetailPage = () => {
         });
         resolve();
         setEditing(false);
+        setSelectedData({});
         mutate(id ? `/presensi/${id}` : null);
       } catch (error) {
         console.log(error.response);
@@ -136,7 +170,7 @@ const DetailPage = () => {
       onSubmit={handleSubmit}
     >
       <div className={styles.attendance}>
-        <Table dataSource={sg.data.presensis} columns={columns} />
+        <Table rowKey='id' dataSource={sg.data.presensis} columns={columns} />
       </div>
     </InformationCard>
   );
