@@ -1,5 +1,6 @@
+/* eslint-disable react/display-name */
 import { Button } from 'antd';
-import React from 'react';
+import React, { useImperativeHandle } from 'react';
 import ReactExport from 'react-data-export';
 
 const ExcelFile = ReactExport.ExcelFile;
@@ -78,9 +79,17 @@ const multiDataSet = [
   },
 ];
 
+// // const ExportToExcel = React.forwardRef((props, ref) => {
+// //   return 'Anoi';
+// // });
+
 const ExportToExcel = React.forwardRef((props, ref) => {
+  useImperativeHandle(ref, () => {
+    console.log('Anjoi');
+  });
+
   return (
-    <ExcelFile element={<Button>Download Data With Styles</Button>}>
+    <ExcelFile element={<button>Download Data With Styles</button>}>
       <ExcelSheet dataSet={multiDataSet} name='Organization' />
     </ExcelFile>
   );
