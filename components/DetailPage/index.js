@@ -10,19 +10,21 @@ import {
   Input,
   PageHeader,
   Tag,
+  Grid,
 } from 'antd';
 import { CheckOutlined } from '@ant-design/icons';
 import styles from './DetailPage.module.less';
 import useSWR, { mutate } from 'swr';
 import { useRouter } from 'next/router';
-import fetcher from '@lib/fetcher';
 import InformationCard from '@components/InformationCard';
 import { SuccesCreateNotification } from '@components/Notification';
 import api from '@lib/api';
 import axios from 'axios';
 import { COLUMN_WIDTH } from '@constant/index';
-
+import Fetcher from '@lib/fetcher';
 const { Search } = Input;
+
+const { useBreakpoint } = Grid;
 
 const checkStyle = {
   color: '#00C242',
@@ -32,10 +34,12 @@ const checkStyle = {
 
 const DetailPage = () => {
   const router = useRouter();
+  const screens = useBreakpoint();
+
   const { id } = router.query;
+
   const [selectedData, setSelectedData] = useState({});
   const [searchValue, setSearchValue] = useState('');
-
   const [isEditing, setEditing] = useState(false);
 
   const handleToggleEditing = () => {
@@ -162,7 +166,12 @@ const DetailPage = () => {
 
   // https://github.com/vercel/next.js/discussions/15952#discussioncomment-47750
   // https://swr.vercel.app/docs/conditional-fetching
-  const { data: sg, error } = useSWR(id ? `/presensi/${id}` : null, fetcher);
+  const { data: sg, error } = useSWR(
+    id ? `/presensi/${id}` : null,
+    Fetcher.get
+  );
+
+  console.log(screens);
 
   if (error) {
     return (
@@ -236,7 +245,7 @@ const DetailPage = () => {
           pagination={false}
           dataSource={dataSource}
           columns={columns}
-          scroll={{ x: 600 }}
+          scroll={screens.xl ? false : { x: 900 }}
         />
       </div>
     </InformationCard>

@@ -50,6 +50,7 @@ export const AuthenticationProvider = ({ children }) => {
     return () => {
       router.events.off('routeChangeStart', handleResetError);
     };
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const login = (payload) => {

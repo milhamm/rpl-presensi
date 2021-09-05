@@ -1,6 +1,5 @@
 import CardSG from '@components/CardSG';
-import React from 'react';
-import fetcher from '@lib/fetcher';
+import React, { useState } from 'react';
 import { Button, Divider } from 'antd';
 import Link from 'next/link';
 import useSWR from 'swr';
@@ -8,9 +7,33 @@ import CardLists from './CardLists';
 import FilterList from './FilterList';
 import styles from './HomePage.module.less';
 import SearchBar from './SearchBar';
+import { useDebounce } from 'hooks/useDebounce';
+import Fetcher from '@lib/fetcher';
+import dayjs from 'dayjs';
 
 const HomePage = () => {
-  const { data } = useSWR('/studygroup', fetcher);
+  const [filter, setFilter] = useState({});
+  const debouncedFilter = useDebounce(filter, 500);
+  const isHasFilter =
+    Object.keys(debouncedFilter).length > 0 && 'tanggal' in debouncedFilter;
+
+  const { data } = useSWR('/studygroup', Fetcher.get);
+  const { data: filteredData } = useSWR(
+    isHasFilter ? ['/studygroup/search', debouncedFilter] : null,
+    Fetcher.post
+  );
+
+  const handleFilterChange = (data, key) => {
+    if (data === '') {
+      const newObj = { ...filter };
+      delete newObj[key];
+      setFilter(newObj);
+    } else {
+      setFilter({ ...filter, [key]: data });
+    }
+  };
+
+  console.log(debouncedFilter);
 
   return (
     <>
@@ -61,10 +84,15 @@ const HomePage = () => {
       </div>
 
       <div className={styles['home-lists']}>
-        <SearchBar />
-        <FilterList />
+        <SearchBar onJudulChange={handleFilterChange} />
+        <FilterList
+          onPenutorChange={handleFilterChange}
+          onTanggalChange={handleFilterChange}
+        />
         <Divider />
-        {data && <CardLists data={data?.data} />}
+        {data && (
+          <CardLists data={isHasFilter ? filteredData?.data : data?.data} />
+        )}
       </div>
     </>
   );

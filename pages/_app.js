@@ -1,4 +1,5 @@
 import { AuthenticationProvider } from '@context/auth';
+import { message } from 'antd';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
@@ -16,6 +17,10 @@ function MyApp({ Component, pageProps }) {
       });
     });
   }, [router]);
+
+  message.config({
+    maxCount: 1,
+  });
 
   return (
     <>

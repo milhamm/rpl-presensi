@@ -4,7 +4,11 @@ const { Search } = Input;
 
 import styles from './SearchBar.module.less';
 
-const SearchBar = () => {
+const SearchBar = ({ onJudulChange }) => {
+  const handleJudulChange = (e) => {
+    onJudulChange(e.target.value, 'judul');
+  };
+
   return (
     <Card
       className={styles.search}
@@ -12,6 +16,7 @@ const SearchBar = () => {
       bordered={false}
     >
       <Search
+        onChange={handleJudulChange}
         className={styles.bar}
         enterButton
         bordered={false}

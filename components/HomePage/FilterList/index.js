@@ -11,7 +11,16 @@ const COL_OPTION = {
   lg: 12,
 };
 
-const FilterList = () => {
+const FilterList = ({ onPenutorChange, onTanggalChange }) => {
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    onPenutorChange(value, 'penutor');
+  };
+
+  const handleTanggalChange = (date) => {
+    onTanggalChange(date ? date.toISOString() : '', 'tanggal');
+  };
+
   return (
     <div className={styles.filter}>
       <Form>
@@ -21,6 +30,7 @@ const FilterList = () => {
               <Input
                 className={styles.input}
                 placeholder='Isi Penutor'
+                onChange={handleInputChange}
                 allowClear
               />
             </Form.Item>
@@ -28,7 +38,9 @@ const FilterList = () => {
           <Col {...COL_OPTION}>
             <Form.Item label='Tanggal'>
               <DatePicker
+                onChange={handleTanggalChange}
                 className={styles.input}
+                showTime
                 placeholder='Pilih Tanggal'
               />
             </Form.Item>
