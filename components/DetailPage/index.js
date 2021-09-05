@@ -22,6 +22,7 @@ import api from '@lib/api';
 import axios from 'axios';
 import { COLUMN_WIDTH } from '@constant/index';
 import Fetcher from '@lib/fetcher';
+import ExportToExcel from '@components/ExportToExcel';
 const { Search } = Input;
 
 const { useBreakpoint } = Grid;
@@ -211,16 +212,17 @@ const DetailPage = () => {
       isInput={isEditing}
       onReset={handleReset}
       submitText='Simpan Perubahan'
-      extra={
-        <div>
+      extra={[
+        <div key='edit'>
           Edit Mode
           <Switch
             style={{ marginLeft: '1rem' }}
             checked={isEditing}
             onChange={handleToggleEditing}
           />
-        </div>
-      }
+        </div>,
+        // <ExportToExcel />,
+      ]}
       onSubmit={handleSubmit}
     >
       <div className={styles.attendance}>
