@@ -7,6 +7,7 @@ import { Button, Popover } from 'antd';
 import { DownOutlined, LogoutOutlined } from '@ant-design/icons';
 import { useAuth } from '@context/auth';
 import Link from 'next/link';
+import router from 'next/router';
 
 const Navbar = () => {
   const [active, setActive] = useState(false);

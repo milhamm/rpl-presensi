@@ -25,6 +25,8 @@ const HomePage = () => {
     Fetcher.post
   );
 
+  // const data = null;
+
   const handleFilterChange = (data, key) => {
     if (data === '') {
       const newObj = { ...filter };
@@ -34,10 +36,6 @@ const HomePage = () => {
       setFilter({ ...filter, [key]: data });
     }
   };
-
-  if (!data) {
-    return null;
-  }
 
   return (
     <>
@@ -60,7 +58,7 @@ const HomePage = () => {
           </h1>
         </div>
         <div className={styles.overview}>
-          {data?.data.length > 0 && (
+          {data && data?.data.length > 0 && (
             <>
               <div className={styles['overview-cards']}>
                 <CardSG
@@ -75,7 +73,7 @@ const HomePage = () => {
                     <CardSG
                       key={idx}
                       data={val}
-                      loading={!!!val}
+                      loading={!data}
                       showButton={false}
                       type='secondary'
                     />
@@ -98,9 +96,12 @@ const HomePage = () => {
           disabled={!('tanggal' in filter)}
         />
         <Divider />
-        {data && (
-          <CardLists data={isHasFilter ? filteredData?.data : data?.data} />
-        )}
+        {
+          <CardLists
+            loading={isHasFilter ? !filteredData : !data}
+            data={isHasFilter ? filteredData?.data : data?.data}
+          />
+        }
       </div>
     </>
   );

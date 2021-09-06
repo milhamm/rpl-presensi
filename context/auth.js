@@ -17,8 +17,6 @@ export const AuthenticationProvider = ({ children }) => {
         const token = localStorage.getItem('token');
         if (!!token) {
           api.defaults.headers.Authorization = `Bearer ${token}`;
-          // console.log('Masuk Sini', api.defaults);
-          // await api.get('/studygroup');
           setUser(true);
           resolve(true);
         } else {
@@ -43,6 +41,7 @@ export const AuthenticationProvider = ({ children }) => {
       validate().then(() => {
         setLoading(false);
       });
+      setLoading(false);
     };
 
     router.events.on('routeChangeStart', handleResetError);
@@ -65,7 +64,6 @@ export const AuthenticationProvider = ({ children }) => {
         router.push('/');
         res();
       } catch (error) {
-        // console.log(error.response.data);
         setError(error.response.data.data);
         rej(error.response.data.data);
       }
@@ -76,6 +74,7 @@ export const AuthenticationProvider = ({ children }) => {
     localStorage.removeItem('token');
     setUser(null);
     delete api.defaults.headers.Authorization;
+    router.push('/login');
   };
 
   return (

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Divider,
   Input,
@@ -32,9 +32,11 @@ const InformationCard = ({
   onReset,
   submitText = 'Buat Study Group',
   extra = null,
+  loading,
 }) => {
   const [form] = Form.useForm();
   const [isSubmitting, setSubmitting] = useState(false);
+  const [initialState, setInitialState] = useState({});
 
   const handleFinishForm = async (data) => {
     const newFormat = { ...data, tanggal: dayjs(data.tanggal).toISOString() };
@@ -52,16 +54,24 @@ const InformationCard = ({
     onReset();
   };
 
-  const initialData = data
-    ? {
-        divisi: data.divisi,
-        penutor: data.penutor,
-        judul: data.judul,
-        tempat: data.tempat,
-        deskripsi: data.deskripsi,
-        tanggal: dayjs(data.tanggal),
-      }
-    : {};
+  useEffect(() => {
+    setInitialState(
+      data
+        ? {
+            divisi: data.divisi,
+            penutor: data.penutor,
+            judul: data.judul,
+            tempat: data.tempat,
+            deskripsi: data.deskripsi,
+            tanggal: dayjs(data.tanggal),
+          }
+        : {}
+    );
+  }, [isInput, data]);
+
+  useEffect(() => {
+    form.setFieldsValue(initialState);
+  }, [initialState, form]);
 
   return (
     <div className={styles.main}>
@@ -77,13 +87,14 @@ const InformationCard = ({
 
       <Form
         scrollToFirstError
-        initialValues={initialData}
+        initialValues={initialState}
         form={form}
         component={isInput ? 'form' : false}
         onFinish={handleFinishForm}
       >
         <div className={styles.info}>
           <Information
+            loading={loading}
             title='Divisi'
             content={data?.divisi}
             isInput={isInput}
@@ -105,16 +116,11 @@ const InformationCard = ({
                     </Option>
                   ))}
                 </Select>
-                {/* <Input
-                  autoComplete='off'
-                  disabled={isSubmitting}
-                  className={styles.input}
-                  placeholder='Pilih Divisi Study Group'
-                /> */}
               </Form.Item>
             }
           />
           <Information
+            loading={loading}
             title='Penutor'
             content={data?.penutor}
             isInput={isInput}
@@ -136,6 +142,7 @@ const InformationCard = ({
             }
           />
           <Information
+            loading={loading}
             title='Materi'
             content={data?.judul}
             isInput={isInput}
@@ -155,6 +162,7 @@ const InformationCard = ({
             }
           />
           <Information
+            loading={loading}
             title='Tanggal'
             isInput={isInput}
             content={data ? formatLongDate(data?.tanggal) : ''}
@@ -180,6 +188,7 @@ const InformationCard = ({
             }
           />
           <Information
+            loading={loading}
             title='Tempat'
             isInput={isInput}
             content={data?.tempat}
@@ -201,6 +210,7 @@ const InformationCard = ({
             }
           />
           <Information
+            loading={loading}
             title='Deskripsi'
             isInput={isInput}
             content={data?.deskripsi}
@@ -223,6 +233,7 @@ const InformationCard = ({
           />
         </div>
         <Divider />
+
         {children}
 
         {isInput && (

@@ -42,7 +42,6 @@ const checkStyle = {
 const DetailPage = () => {
   const router = useRouter();
   const screens = useBreakpoint();
-
   const { id } = router.query;
 
   const [selectedData, setSelectedData] = useState({});
@@ -50,34 +49,14 @@ const DetailPage = () => {
   const [isEditing, setEditing] = useState(false);
   const excelRef = useRef();
 
-  const handleToggleEditing = () => {
-    setEditing(!isEditing);
-  };
+  // https://github.com/vercel/next.js/discussions/15952#discussioncomment-47750
+  // https://swr.vercel.app/docs/conditional-fetching
+  const { data: sg, error } = useSWR(
+    id ? `/presensi/${id}` : null,
+    Fetcher.get
+  );
 
-  // For the attendance list radio button and checklist
-  const renderDataItem = ({ data, key, isEditing, record }) => {
-    const isOnSelectedData =
-      record?.id in selectedData
-        ? selectedData[record?.id].status === key
-        : data === key;
-
-    if (isEditing) {
-      return (
-        <Radio
-          checked={isOnSelectedData}
-          onChange={() => {
-            setSelectedData({ ...selectedData, [record.id]: { status: key } });
-          }}
-        />
-      );
-    } else {
-      if (data === key) {
-        return <CheckOutlined style={checkStyle} />;
-      } else {
-        return null;
-      }
-    }
-  };
+  const isLoading = !sg && !error;
 
   const columns = [
     {
@@ -133,6 +112,31 @@ const DetailPage = () => {
     },
   ];
 
+  const handleToggleEditing = () => {
+    setEditing(!isEditing);
+  };
+
+  // For the attendance list radio button and checklist
+  const renderDataItem = ({ data, key, isEditing, record }) => {
+    const isOnSelectedData =
+      record?.id in selectedData
+        ? selectedData[record?.id].status === key
+        : data === key;
+
+    if (isEditing) {
+      return (
+        <Radio
+          checked={isOnSelectedData}
+          onChange={() => {
+            setSelectedData({ ...selectedData, [record.id]: { status: key } });
+          }}
+        />
+      );
+    } else {
+      return data == key && <CheckOutlined style={checkStyle} />;
+    }
+  };
+
   const handleReset = () => {
     setSelectedData({});
   };
@@ -163,7 +167,6 @@ const DetailPage = () => {
         setSelectedData({});
         mutate(id ? `/presensi/${id}` : null);
       } catch (error) {
-        // console.log(error.response);
         message.error({
           content: 'Gagal ubah wkwk',
         });
@@ -171,13 +174,6 @@ const DetailPage = () => {
       }
     });
   };
-
-  // https://github.com/vercel/next.js/discussions/15952#discussioncomment-47750
-  // https://swr.vercel.app/docs/conditional-fetching
-  const { data: sg, error } = useSWR(
-    id ? `/presensi/${id}` : null,
-    Fetcher.get
-  );
 
   if (error) {
     return (
@@ -199,22 +195,21 @@ const DetailPage = () => {
     );
   }
 
-  if (!sg) {
-    return null;
-  }
-
   const filteredData =
+    !isLoading &&
     sg?.data?.presensis &&
     sg.data.presensis.filter((val) =>
       val.nama.toLowerCase().includes(searchValue.toLowerCase())
     );
 
-  const dataSource = searchValue === '' ? sg.data.presensis : filteredData;
+  const dataSource =
+    !isLoading && searchValue === '' ? sg.data.presensis : filteredData;
 
   return (
     <>
       <InformationCard
-        data={sg.data}
+        data={sg?.data}
+        loading={isLoading}
         isInput={isEditing}
         onReset={handleReset}
         submitText='Simpan Perubahan'
@@ -223,12 +218,14 @@ const DetailPage = () => {
             <div key='edit'>
               Edit Mode
               <Switch
+                disabled={isLoading}
                 style={{ marginLeft: '1rem' }}
                 checked={isEditing}
                 onChange={handleToggleEditing}
               />
             </div>
             <Dropdown.Button
+              disabled={isLoading}
               overlay={
                 <Menu>
                   <Menu.Item key='pdf' icon={<FilePdfOutlined />}>
@@ -267,6 +264,7 @@ const DetailPage = () => {
             }
           />
           <Table
+            loading={isLoading}
             rowKey='id'
             filterSearch
             pagination={false}
@@ -276,7 +274,7 @@ const DetailPage = () => {
           />
         </div>
       </InformationCard>
-      <ExportToExcel information={sg.data} ref={excelRef} />
+      {!isLoading && <ExportToExcel information={sg?.data} ref={excelRef} />}
     </>
   );
 };
