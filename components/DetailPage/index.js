@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   Button,
   Card,
@@ -48,6 +48,7 @@ const DetailPage = () => {
   const [selectedData, setSelectedData] = useState({});
   const [searchValue, setSearchValue] = useState('');
   const [isEditing, setEditing] = useState(false);
+  const excelRef = useRef();
 
   const handleToggleEditing = () => {
     setEditing(!isEditing);
@@ -211,62 +212,72 @@ const DetailPage = () => {
   const dataSource = searchValue === '' ? sg.data.presensis : filteredData;
 
   return (
-    <InformationCard
-      data={sg.data}
-      isInput={isEditing}
-      onReset={handleReset}
-      submitText='Simpan Perubahan'
-      extra={
-        <div className={styles.extra}>
-          <div key='edit'>
-            Edit Mode
-            <Switch
-              style={{ marginLeft: '1rem' }}
-              checked={isEditing}
-              onChange={handleToggleEditing}
-            />
+    <>
+      <InformationCard
+        data={sg.data}
+        isInput={isEditing}
+        onReset={handleReset}
+        submitText='Simpan Perubahan'
+        extra={
+          <div className={styles.extra}>
+            <div key='edit'>
+              Edit Mode
+              <Switch
+                style={{ marginLeft: '1rem' }}
+                checked={isEditing}
+                onChange={handleToggleEditing}
+              />
+            </div>
+            <Dropdown.Button
+              overlay={
+                <Menu>
+                  <Menu.Item key='pdf' icon={<FilePdfOutlined />}>
+                    PDF
+                  </Menu.Item>
+                  <Menu.Item
+                    key='excel'
+                    icon={<FileExcelOutlined />}
+                    onClick={() => excelRef.current.handleSubmit()}
+                  >
+                    Excel
+                  </Menu.Item>
+                </Menu>
+              }
+            >
+              Export
+            </Dropdown.Button>
           </div>
-          <Dropdown.Button
-            overlay={
-              <Menu>
-                <Menu.Item icon={<FilePdfOutlined />}>PDF</Menu.Item>
-                <Menu.Item icon={<FileExcelOutlined />}>Excel</Menu.Item>
-              </Menu>
+        }
+        onSubmit={handleSubmit}
+      >
+        <div className={styles.attendance}>
+          <PageHeader
+            className={styles.heading}
+            title='Daftar Hadir Peserta'
+            extra={
+              <Search
+                className={styles.search}
+                enterButton
+                placeholder='Masukkan nama'
+                onChange={(e) => {
+                  e.stopPropagation();
+                  setSearchValue(e.target.value);
+                }}
+              />
             }
-          >
-            Export
-          </Dropdown.Button>
-          {/* <ExportToExcel /> */}
+          />
+          <Table
+            rowKey='id'
+            filterSearch
+            pagination={false}
+            dataSource={dataSource}
+            columns={columns}
+            scroll={screens.xl ? false : { x: 900 }}
+          />
         </div>
-      }
-      onSubmit={handleSubmit}
-    >
-      <div className={styles.attendance}>
-        <PageHeader
-          className={styles.heading}
-          title='Daftar Hadir Peserta'
-          extra={
-            <Search
-              className={styles.search}
-              enterButton
-              placeholder='Masukkan nama'
-              onChange={(e) => {
-                e.stopPropagation();
-                setSearchValue(e.target.value);
-              }}
-            />
-          }
-        />
-        <Table
-          rowKey='id'
-          filterSearch
-          pagination={false}
-          dataSource={dataSource}
-          columns={columns}
-          scroll={screens.xl ? false : { x: 900 }}
-        />
-      </div>
-    </InformationCard>
+      </InformationCard>
+      <ExportToExcel information={sg.data} ref={excelRef} />
+    </>
   );
 };
 

@@ -14,7 +14,6 @@ import { useAuth } from '@context/auth';
 
 const HomePage = () => {
   const { isLoggedIn } = useAuth();
-
   const { data } = useSWR(isLoggedIn ? '/studygroup' : null, Fetcher.get);
 
   const [filter, setFilter] = useState({});

@@ -1,96 +1,88 @@
 /* eslint-disable react/display-name */
-import { Button } from 'antd';
-import React, { useImperativeHandle } from 'react';
+import DetailPage from '@components/DetailPage';
+import { DATE_FORMAT_EXCEL, DATE_FORMAT } from '@constant/index';
+import capitalize from '@lib/capitalize';
+import { formatLongDate } from '@lib/formatDate';
+import dayjs from 'dayjs';
+import React, { useImperativeHandle, useRef } from 'react';
 import ReactExport from 'react-data-export';
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
-const multiDataSet = [
-  {
-    columns: [
-      { title: 'Headings', width: { wpx: 80 } }, //pixels width
-      { title: 'Text Style', width: { wch: 40 } }, //char width
-      { title: 'Colors', width: { wpx: 90 } },
-    ],
-    data: [
-      [
-        { value: 'H1', style: { font: { sz: '24', bold: true } } },
-        { value: 'Bold', style: { font: { bold: true } } },
-        {
-          value: 'Red',
-          style: {
-            fill: { patternType: 'solid', fgColor: { rgb: 'FFFF0000' } },
-          },
-        },
-      ],
-      [
-        { value: 'H2', style: { font: { sz: '18', bold: true } } },
-        { value: 'underline', style: { font: { underline: true } } },
-        {
-          value: 'Blue',
-          style: {
-            fill: { patternType: 'solid', fgColor: { rgb: 'FF0000FF' } },
-          },
-        },
-      ],
-      [
-        { value: 'H3', style: { font: { sz: '14', bold: true } } },
-        { value: 'italic', style: { font: { italic: true } } },
-        {
-          value: 'Green',
-          style: {
-            fill: { patternType: 'solid', fgColor: { rgb: 'FF00FF00' } },
-          },
-        },
-      ],
-      [
-        { value: 'H4', style: { font: { sz: '12', bold: true } } },
-        { value: 'strike', style: { font: { strike: true } } },
-        {
-          value: 'Orange',
-          style: {
-            fill: { patternType: 'solid', fgColor: { rgb: 'FFF86B00' } },
-          },
-        },
-      ],
-      [
-        { value: 'H5', style: { font: { sz: '10.5', bold: true } } },
-        { value: 'outline', style: { font: { outline: true } } },
-        {
-          value: 'Yellow',
-          style: {
-            fill: { patternType: 'solid', fgColor: { rgb: 'FFFFFF00' } },
-          },
-        },
-      ],
-      [
-        { value: 'H6', style: { font: { sz: '7.5', bold: true } } },
-        { value: 'shadow', style: { font: { shadow: true } } },
-        {
-          value: 'Light Blue',
-          style: {
-            fill: { patternType: 'solid', fgColor: { rgb: 'FFCCEEFF' } },
-          },
-        },
-      ],
-    ],
-  },
-];
+const ExportToExcel = React.forwardRef(({ information }, ref) => {
+  const btnRef = useRef();
 
-// // const ExportToExcel = React.forwardRef((props, ref) => {
-// //   return 'Anoi';
-// // });
+  const renderDataInformation = (data) => {
+    return data.map((val) => [{ value: val.name }, { value: val.value }]);
+  };
 
-const ExportToExcel = React.forwardRef((props, ref) => {
+  const renderPresensiInformation = (data) => {
+    return data.map((val) => [
+      { value: val.nama },
+      { value: capitalize(val.status) },
+    ]);
+  };
+
+  const dataset = [
+    {
+      columns: [
+        { title: 'RPL-GDC Study Group Presensi', width: { wpx: 80 } }, //pixels width
+        // { title: '', width: { wpx: 80 } }, //char width
+      ],
+      data: renderDataInformation([
+        { name: 'Divisi', value: information.divisi },
+        { name: 'Penutor', value: information.penutor },
+        { name: 'Materi', value: information.judul },
+        {
+          name: 'Tanggal',
+          value: formatLongDate(information.tanggal, DATE_FORMAT),
+        },
+        { name: 'Tempat', value: information.tempat },
+        { name: 'Deskripsi', value: information.deskripsi },
+        {
+          name: 'exported_on',
+          value: formatLongDate(dayjs().toISOString(), DATE_FORMAT),
+        },
+      ]),
+    },
+    {
+      xSteps: 6,
+      ySteps: -8,
+      columns: [
+        { title: 'Nama', width: { wpx: 80 } }, //pixels width
+        { title: 'Status', width: { wpx: 80 } }, //char width
+      ],
+      data: renderPresensiInformation(information.presensis),
+    },
+  ];
+
+  // console.log(dataset);
+
   useImperativeHandle(ref, () => {
-    console.log('Anjoi');
+    const handleSubmit = () => {
+      btnRef.current.click();
+    };
+
+    return {
+      handleSubmit,
+    };
   });
 
   return (
-    <ExcelFile element={<button>Download Data With Styles</button>}>
-      <ExcelSheet dataSet={multiDataSet} name='Organization' />
+    <ExcelFile
+      filename={`RPL-GDC_${information.divisi}_${formatLongDate(
+        information.tanggal,
+        DATE_FORMAT_EXCEL
+      )}_${dayjs().unix()}`}
+      element={
+        <button ref={btnRef} style={{ display: 'none' }}>
+          Download Data With Styles
+        </button>
+      }
+    >
+      <ExcelSheet dataSet={dataset} name='RPL-GDC Study Group Presensi' />
     </ExcelFile>
   );
 });
