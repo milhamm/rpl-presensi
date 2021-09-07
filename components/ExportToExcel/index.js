@@ -9,7 +9,6 @@ import ReactExport from 'react-data-export';
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
 const ExportToExcel = React.forwardRef(({ information }, ref) => {
   const btnRef = useRef();
@@ -27,10 +26,7 @@ const ExportToExcel = React.forwardRef(({ information }, ref) => {
 
   const dataset = [
     {
-      columns: [
-        { title: 'RPL-GDC Study Group Presensi', width: { wpx: 80 } }, //pixels width
-        // { title: '', width: { wpx: 80 } }, //char width
-      ],
+      columns: [{ title: 'RPL-GDC Study Group Presensi', width: { wpx: 80 } }],
       data: renderDataInformation([
         { name: 'Divisi', value: information.divisi },
         { name: 'Penutor', value: information.penutor },
@@ -58,8 +54,6 @@ const ExportToExcel = React.forwardRef(({ information }, ref) => {
     },
   ];
 
-  // console.log(dataset);
-
   useImperativeHandle(ref, () => {
     const handleSubmit = () => {
       btnRef.current.click();
@@ -72,7 +66,9 @@ const ExportToExcel = React.forwardRef(({ information }, ref) => {
 
   return (
     <ExcelFile
-      filename={`RPL-GDC_${information.divisi}_${formatLongDate(
+      filename={`RPL-GDC_${information.divisi}_${
+        information.judul
+      }_${formatLongDate(
         information.tanggal,
         DATE_FORMAT_EXCEL
       )}_${dayjs().unix()}`}
