@@ -1,8 +1,10 @@
+import React from 'react';
+import Image from 'next/image';
+
 import CircleDecor from '@components/CircleDecor';
 import Navbar from '@components/Navbar';
-import React from 'react';
+
 import styles from './Layout.module.less';
-import Image from 'next/image';
 
 const Layout = ({ children }) => {
   return (

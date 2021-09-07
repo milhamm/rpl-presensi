@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import styles from './Navbar.module.less';
-import Logo from '../../public/presensi-logo.png';
 import Image from 'next/image';
-import cx from 'classnames';
+import Link from 'next/link';
 import { Button, Popover } from 'antd';
+import cx from 'classnames';
+
 import { DownOutlined, LogoutOutlined } from '@ant-design/icons';
 import { useAuth } from '@context/auth';
-import Link from 'next/link';
-import router from 'next/router';
+
+import styles from './Navbar.module.less';
 
 const Navbar = () => {
-  const [active, setActive] = useState(false);
   const [arrowActive, setArrowActive] = useState(false);
   const { logout } = useAuth();
 
@@ -26,7 +25,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className={cx(styles.navbar, { [styles.solid]: active })}>
+    <nav className={styles.navbar}>
       <div className={styles.container}>
         <div>
           <Link href='/'>

@@ -1,6 +1,8 @@
 import React from 'react';
 import { List } from 'antd';
+
 import CardSG from '@components/CardSG';
+
 import styles from './CardLists.module.less';
 
 const CardLists = ({ data, loading }) => {

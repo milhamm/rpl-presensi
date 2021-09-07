@@ -1,15 +1,18 @@
 import React from 'react';
 import { Button, Card, Skeleton, Modal, message } from 'antd';
-import { DeleteOutlined, CloseOutlined } from '@ant-design/icons';
-import cn from 'classnames';
-import styles from './Card.module.less';
-import { mutate } from 'swr';
-import CardTitle from './CardTitle';
-import { formatLongDate, formatTime } from '@lib/formatDate';
 import Link from 'next/link';
+import cn from 'classnames';
+import { mutate } from 'swr';
+import { DeleteOutlined, CloseOutlined } from '@ant-design/icons';
+
 import api from '@lib/api';
-import { SuccesCreateNotification } from '@components/Notification';
+import { formatLongDate, formatTime } from '@lib/formatDate';
 import { DATE_SHORT_FORMAT } from '@constant/index';
+
+import { SuccesCreateNotification } from '@components/Notification';
+import CardTitle from './CardTitle';
+
+import styles from './Card.module.less';
 // Using require to import non-module .less files
 require('./Card.less');
 

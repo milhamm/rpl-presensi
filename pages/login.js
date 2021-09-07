@@ -1,8 +1,8 @@
-import Layout from '@components/Layout';
+import React from 'react';
+
 import AuthLayout from '@components/Layout/AuthLayout';
 import LoginPage from '@components/LoginPage';
 import Page from '@components/Page';
-import React from 'react';
 
 const Login = () => {
   const meta = { title: 'Login' };

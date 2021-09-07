@@ -1,10 +1,12 @@
 import React from 'react';
 import { message } from 'antd';
 import { useRouter } from 'next/router';
-import { SuccesCreateNotification } from '@components/Notification';
-import InformationCard from '@components/InformationCard';
+
 import api from '@lib/api';
 import { waiter } from '@lib/waiter';
+
+import { SuccesCreateNotification } from '@components/Notification';
+import InformationCard from '@components/InformationCard';
 
 const NewPage = () => {
   const router = useRouter();

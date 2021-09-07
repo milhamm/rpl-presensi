@@ -1,5 +1,6 @@
-import { Skeleton } from 'antd';
 import React from 'react';
+import { Skeleton } from 'antd';
+
 import styles from './Card.module.less';
 
 const CardTitle = ({ title, date, loading }) => {

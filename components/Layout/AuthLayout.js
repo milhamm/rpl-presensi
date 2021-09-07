@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
-import Image from 'next/image';
-import styles from './AuthLayout.module.less';
-import Calendar from '../../public/calendar.svg';
-import { useAuth } from '@context/auth';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
+
+import { useAuth } from '@context/auth';
+
+import styles from './AuthLayout.module.less';
+
+import Calendar from '../../public/calendar.svg';
 
 const AuthLayout = ({ children }) => {
   const { isLoggedIn, isLoading } = useAuth();

@@ -1,5 +1,6 @@
-import { Input, Skeleton } from 'antd';
 import React from 'react';
+import { Skeleton } from 'antd';
+
 import styles from './Information.module.less';
 
 const Information = ({

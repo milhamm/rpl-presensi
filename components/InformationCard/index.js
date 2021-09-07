@@ -8,20 +8,24 @@ import {
   ConfigProvider,
   Select,
 } from 'antd';
+import dayjs from 'dayjs';
+
+import { formatLongDate } from '@lib/formatDate';
+import { DATE_FORMAT, DATE_FORMAT_NEW, DIVISIONS } from '@constant/index';
+
 import DatePicker from '@components/Datepicker';
 import Information from './Information';
-import styles from './InformationCard.module.less';
-import { formatLongDate } from '@lib/formatDate';
-import dayjs from 'dayjs';
-import 'dayjs/locale/id';
-import { DATE_FORMAT, DATE_FORMAT_NEW, DIVISIONS } from '@constant/index';
-import locale from 'antd/lib/locale/id_ID';
 
-const { Option } = Select;
+import styles from './InformationCard.module.less';
+
+import 'dayjs/locale/id';
+import locale from 'antd/lib/locale/id_ID';
 
 let customLocale = locale;
 customLocale.DatePicker.lang.ok = 'Simpan';
 dayjs.locale('id');
+
+const { Option } = Select;
 
 const InformationCard = ({
   title = 'Laporan Study Group',

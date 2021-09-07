@@ -1,11 +1,11 @@
 /* eslint-disable react/display-name */
-import DetailPage from '@components/DetailPage';
-import { DATE_FORMAT_EXCEL, DATE_FORMAT } from '@constant/index';
-import capitalize from '@lib/capitalize';
-import { formatLongDate } from '@lib/formatDate';
-import dayjs from 'dayjs';
 import React, { useImperativeHandle, useRef } from 'react';
 import ReactExport from 'react-data-export';
+import dayjs from 'dayjs';
+
+import { DATE_FORMAT_EXCEL, DATE_FORMAT } from '@constant/index';
+import { formatLongDate } from '@lib/formatDate';
+import capitalize from '@lib/capitalize';
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;

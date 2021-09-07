@@ -1,6 +1,8 @@
 import React from 'react';
 import Lottie from 'react-lottie';
+
 import styles from './Notification.module.less';
+
 import animationData from '../../lottie/69380-success-check.json';
 
 const SuccesCreateNotification = ({ title, text }) => {

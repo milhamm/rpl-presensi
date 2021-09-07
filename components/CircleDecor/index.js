@@ -1,6 +1,7 @@
 import React from 'react';
-import styles from './CircleDecor.module.less';
 import cx from 'classnames';
+
+import styles from './CircleDecor.module.less';
 
 const CircleDecor = ({ type = 1 }) => {
   return (

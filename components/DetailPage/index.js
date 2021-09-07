@@ -14,23 +14,26 @@ import {
   Dropdown,
   Menu,
 } from 'antd';
+import axios from 'axios';
+import useSWR, { mutate } from 'swr';
+import { useRouter } from 'next/router';
+
 import {
   CheckOutlined,
   FileExcelOutlined,
   FilePdfOutlined,
 } from '@ant-design/icons';
-import styles from './DetailPage.module.less';
-import useSWR, { mutate } from 'swr';
-import { useRouter } from 'next/router';
-import InformationCard from '@components/InformationCard';
-import { SuccesCreateNotification } from '@components/Notification';
 import api from '@lib/api';
-import axios from 'axios';
-import { COLUMN_WIDTH } from '@constant/index';
 import Fetcher from '@lib/fetcher';
-import ExportToExcel from '@components/ExportToExcel';
-const { Search } = Input;
+import { COLUMN_WIDTH } from '@constant/index';
 
+import { SuccesCreateNotification } from '@components/Notification';
+import InformationCard from '@components/InformationCard';
+import ExportToExcel from '@components/ExportToExcel';
+
+import styles from './DetailPage.module.less';
+
+const { Search } = Input;
 const { useBreakpoint } = Grid;
 
 const checkStyle = {
@@ -55,6 +58,8 @@ const DetailPage = () => {
     id ? `/presensi/${id}` : null,
     Fetcher.get
   );
+
+  // const error = true;
 
   const isLoading = !sg && !error;
 
@@ -179,9 +184,9 @@ const DetailPage = () => {
     return (
       <Card style={{ marginTop: '2rem', borderRadius: '2rem' }}>
         <Result
-          status='404'
-          title='404'
-          subTitle='Yahh, Study Group ini tidak ada'
+          status='500'
+          title='Terjadi Kesalahan'
+          subTitle='Study group tidak ditemukan atau error server. Silahkan cek kembali'
           extra={
             <Button
               className='btn btn-primary'

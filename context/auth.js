@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+
 import api from '@lib/api';
-import Router, { useRouter } from 'next/router';
 
 const AuthenticationContext = createContext();
 

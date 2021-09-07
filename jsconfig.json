@@ -6,7 +6,8 @@
       "@constant/*": ["constant/*"],
       "@context/*": ["context/*"],
       "@lib/*": ["lib/*"],
-      "@api/*": ["api/*"]
+      "@api/*": ["api/*"],
+      "@hooks/*": ["hooks/*"]
     }
   }
 }

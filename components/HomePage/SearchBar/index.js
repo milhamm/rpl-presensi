@@ -1,8 +1,8 @@
-import { Card, Input } from 'antd';
 import React from 'react';
-const { Search } = Input;
-
+import { Card, Input } from 'antd';
 import styles from './SearchBar.module.less';
+
+const { Search } = Input;
 
 const SearchBar = ({ onJudulChange, disabled }) => {
   const handleJudulChange = (e) => {

@@ -1,6 +1,7 @@
-import withAuth from '@lib/withAuth';
-import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
+import { useRouter } from 'next/router';
+
+import withAuth from '@lib/withAuth';
 
 const SG = () => {
   const router = useRouter();

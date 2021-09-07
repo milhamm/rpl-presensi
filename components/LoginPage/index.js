@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Form, Input, Button, message } from 'antd';
-import styles from './LoginPage.module.less';
+
 import { useAuth } from '@context/auth';
-import router from 'next/router';
+
+import styles from './LoginPage.module.less';
 
 const LoginPage = () => {
   const [isLoading, setLoading] = useState(false);

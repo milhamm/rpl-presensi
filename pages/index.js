@@ -1,7 +1,8 @@
-import withAuth from '@lib/withAuth';
 import Page from '@components/Page';
 import Layout from '@components/Layout';
 import HomePage from '@components/HomePage';
+
+import withAuth from '@lib/withAuth';
 
 const Home = () => {
   return (
@@ -12,7 +13,5 @@ const Home = () => {
     </Page>
   );
 };
-
-
 
 export default withAuth(Home);

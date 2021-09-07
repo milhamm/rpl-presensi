@@ -1,16 +1,18 @@
-import CardSG from '@components/CardSG';
 import React, { useState } from 'react';
 import { Button, Divider } from 'antd';
-import Link from 'next/link';
 import useSWR from 'swr';
+import Link from 'next/link';
+
+import Fetcher from '@lib/fetcher';
+import { useAuth } from '@context/auth';
+import { useDebounce } from '@hooks/useDebounce';
+
 import CardLists from './CardLists';
 import FilterList from './FilterList';
-import styles from './HomePage.module.less';
 import SearchBar from './SearchBar';
-import { useDebounce } from 'hooks/useDebounce';
-import Fetcher from '@lib/fetcher';
-import api from '@lib/api';
-import { useAuth } from '@context/auth';
+import UpcomingSG from './UpcomingSG';
+
+import styles from './HomePage.module.less';
 
 const HomePage = () => {
   const { isLoggedIn } = useAuth();
@@ -24,8 +26,6 @@ const HomePage = () => {
     isHasFilter ? ['/studygroup/search', debouncedFilter] : null,
     Fetcher.post
   );
-
-  // const data = null;
 
   const handleFilterChange = (data, key) => {
     if (data === '') {
@@ -58,30 +58,7 @@ const HomePage = () => {
           </h1>
         </div>
         <div className={styles.overview}>
-          {data && data?.data.length > 0 && (
-            <>
-              <div className={styles['overview-cards']}>
-                <CardSG
-                  data={data.data[0]}
-                  loading={!!!data.data[0]}
-                  type='hero'
-                />
-              </div>
-              {data?.data.length > 1 && (
-                <div className={styles['overview-lists']}>
-                  {data?.data.slice(1, 3).map((val, idx) => (
-                    <CardSG
-                      key={idx}
-                      data={val}
-                      loading={!data}
-                      showButton={false}
-                      type='secondary'
-                    />
-                  ))}
-                </div>
-              )}
-            </>
-          )}
+          <UpcomingSG data={data} />
         </div>
       </div>
 
