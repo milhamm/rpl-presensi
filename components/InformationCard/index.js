@@ -70,7 +70,7 @@ const InformationCard = ({
             judul: data.judul,
             tempat: data.tempat,
             deskripsi: data.deskripsi,
-            tanggal: dayjs(data.tanggal),
+            tanggal: dayjs(data.tanggal).subtract(7, 'hours'),
           }
         : {}
     );
