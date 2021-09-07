@@ -14,7 +14,7 @@ import styles from './InformationCard.module.less';
 import { formatLongDate } from '@lib/formatDate';
 import dayjs from 'dayjs';
 import 'dayjs/locale/id';
-import { DATE_FORMAT, DIVISIONS } from '@constant/index';
+import { DATE_FORMAT, DATE_FORMAT_NEW, DIVISIONS } from '@constant/index';
 import locale from 'antd/lib/locale/id_ID';
 
 const { Option } = Select;
@@ -39,7 +39,10 @@ const InformationCard = ({
   const [initialState, setInitialState] = useState({});
 
   const handleFinishForm = async (data) => {
-    const newFormat = { ...data, tanggal: dayjs(data.tanggal).toISOString() };
+    const newFormat = {
+      ...data,
+      tanggal: dayjs(data.tanggal).format(DATE_FORMAT_NEW),
+    };
     setSubmitting(true);
     try {
       await onSubmit(newFormat);
@@ -179,7 +182,6 @@ const InformationCard = ({
                     format={DATE_FORMAT}
                     disabled={isSubmitting}
                     showTime
-                    showSecond={false}
                     className={styles.input}
                     placeholder='Pilih tanggal Study Group disini'
                   />

@@ -24,9 +24,6 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      <Head>
-        <link rel='shortcut icon' href='favicon.png' type='image/x-icon' />
-      </Head>
       <AuthenticationProvider>
         <Component {...pageProps} />
       </AuthenticationProvider>

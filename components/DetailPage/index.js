@@ -102,13 +102,13 @@ const DetailPage = () => {
         renderDataItem({ data: data, key: 'sakit', isEditing, record }),
     },
     {
-      title: 'Alpha',
+      title: 'Tidak Hadir',
       dataIndex: 'status',
       key: 'alpha',
       width: COLUMN_WIDTH,
       // eslint-disable-next-line react/display-name
       render: (data, record) =>
-        renderDataItem({ data: data, key: 'alpha', isEditing, record }),
+        renderDataItem({ data: data, key: 'tidak hadir', isEditing, record }),
     },
   ];
 
@@ -228,7 +228,11 @@ const DetailPage = () => {
               disabled={isLoading}
               overlay={
                 <Menu>
-                  <Menu.Item key='pdf' icon={<FilePdfOutlined />}>
+                  <Menu.Item
+                    key='pdf'
+                    icon={<FilePdfOutlined />}
+                    onClick={() => window.print()}
+                  >
                     PDF
                   </Menu.Item>
                   <Menu.Item
